@@ -1,0 +1,17 @@
+<section class="cuenta"><header class="presentacion"><span class="sobre-titulo">ADMINISTRACIÓN</span><h1>Afiliaciones de negocios</h1><p>Revisa los datos antes de aprobar la publicación de un negocio.</p></header>
+<div class="acciones filtros" role="group" aria-label="Estado de las solicitudes">
+@for(estado of ['PENDIENTE','APROBADO','RECHAZADO','SUSPENDIDO',''];track estado) {<button class="boton" type="button" [class.principal]="filtro()===estado" [attr.aria-pressed]="filtro()===estado" (click)="filtrar(estado)">{{ estado || 'TODOS' }}</button>}
+</div>
+@if(error()) {<div class="aviso-error" role="alert">{{error()}}</div>}@if(aviso()) {<div class="aviso-exito" role="status">{{aviso()}}</div>}
+@if(cargando()) {<p role="status">Consultando solicitudes…</p>}
+@if(!cargando() && !error() && negocios().length===0) {<div class="panel">No hay solicitudes en este estado.</div>}
+@for(negocio of negocios();track negocio.idNegocio) {
+<article class="panel solicitud"><div><span class="etiqueta-estado">{{negocio.estadoAprobacion}}</span><h2>{{negocio.nombreComercial}}</h2><p>{{negocio.razonSocial}}</p><p>RUC: {{negocio.ruc}} · {{negocio.tipoContribuyente==='PERSONA_NATURAL'?'Persona natural':'Persona jurídica'}}</p><p>{{negocio.direccion}}, {{negocio.distrito}}, {{negocio.ciudad}}</p><p>{{negocio.correoPropietario}} · {{negocio.telefonoContacto}}</p></div>
+<div class="acciones">
+@if(negocio.estadoAprobacion!=='APROBADO') {<button class="principal" type="button" [disabled]="procesando()!==null" (click)="cambiar(negocio,'APROBADO')">Aprobar</button>}
+@if(negocio.estadoAprobacion==='PENDIENTE') {<button class="boton secundario" type="button" [disabled]="procesando()!==null" (click)="cambiar(negocio,'RECHAZADO')">Rechazar</button>}
+@if(negocio.estadoAprobacion==='APROBADO') {<button class="boton secundario" type="button" [disabled]="procesando()!==null" (click)="cambiar(negocio,'SUSPENDIDO')">Suspender</button>}
+</div></article>}
+@if(totalPaginas()>0) {<app-paginador [pagina]="pagina()" [totalPaginas]="totalPaginas()" [totalElementos]="total()" (cambiar)="cargar($event)" />}
+<app-comisiones-admin />
+</section>

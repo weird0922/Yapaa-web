@@ -1,0 +1,60 @@
+.titulo-fila {
+  margin-bottom: 1.25rem;
+}
+
+.titulo-fila h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+}
+
+.ayuda {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+.lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.cabecera h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.dato {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+}
+
+.total {
+  margin: 0.25rem 0 0;
+  font-weight: 800;
+}
+
+.tarjeta .boton {
+  margin-top: 0.5rem;
+}
+
+.aviso-error {
+  margin-bottom: 1rem;
+}

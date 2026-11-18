@@ -1,0 +1,71 @@
+.acceso {
+  max-width: 440px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.titulo {
+  margin: 0 0 0.35rem;
+  font-size: 1.6rem;
+}
+
+.ayuda {
+  margin: 0 0 1.25rem;
+  color: var(--tinta-suave);
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.error {
+  color: var(--marca);
+  font-size: 0.8rem;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.acciones button {
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--marca);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  color: var(--marca);
+  font-weight: 600;
+}
+
+.acciones button.principal {
+  background: var(--marca);
+  color: #fff;
+}
+
+.registro {
+  margin: 1.25rem 0 0.35rem;
+  font-size: 0.9rem;
+}
+
+.pista {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--tinta-suave);
+}
+
+/* Identidad visual Mercado calido. */
+
+.acceso { margin: 2rem auto; padding: 2.3rem; border-radius: 22px; box-shadow: 0 14px 50px #30231708; }
+.titulo { font-size: 2rem; letter-spacing: -.05em; }
+.formulario { gap: 1.15rem; }
+.acciones button { flex: 1; border-radius: 12px; }
+@media(max-width:480px) { .acceso { margin: .5rem auto; padding: 1.35rem; } }
+
+.sobre-titulo{font-size:.63rem;letter-spacing:.12em;color:var(--marca);font-weight:800}.titulo{margin:.7rem 0 1.3rem}.modos{display:grid;grid-template-columns:1fr 1fr;background:var(--fondo);border:1px solid var(--linea);border-radius:12px;padding:4px;margin-bottom:1rem}.modos button{min-height:44px;border:0;border-radius:8px;background:transparent;color:var(--tinta-suave);font-weight:650;font-size:.85rem}.modos .activo{background:var(--tinta);color:#fff}.nota-retorno{font-size:.8rem;color:var(--marca-oscuro)}.demo{padding-top:1rem;margin-top:1.5rem;border-top:1px solid var(--linea);font-size:.8rem;color:var(--tinta-suave)}.demo summary{cursor:pointer;min-height:44px}.demo .acciones button{font-size:.75rem;padding:.5rem}

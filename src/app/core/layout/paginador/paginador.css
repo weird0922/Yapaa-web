@@ -1,0 +1,35 @@
+.paginador {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.paginador button {
+  min-height: 40px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  color: var(--tinta-suave);
+  font-weight: 600;
+}
+
+.paginador button:hover:not(:disabled) {
+  border-color: var(--marca);
+  color: var(--marca);
+}
+
+.resumen {
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+}
+
+/* Identidad visual Mercado calido. */
+
+.paginador { margin-top: 2rem; gap: 1rem; }
+.paginador button { min-height: 44px; border-radius: 10px; font-size: .8rem; }
+.resumen { font-size: .78rem; }
+@media(max-width:480px) { .paginador { gap: .65rem; } .resumen { order: 3; text-align: center; width: 100%; } }

@@ -1,0 +1,253 @@
+.carrito h1 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+}
+
+.subtitulo {
+  margin: 1.5rem 0 0.85rem;
+  font-size: 1.2rem;
+}
+
+.grupos {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.grupo {
+  padding: 1.15rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.grupo-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.grupo-cabecera h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.subtotal {
+  color: var(--marca-oscuro);
+  font-weight: 700;
+}
+
+.items {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 2fr auto auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--linea);
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.nombre {
+  font-weight: 600;
+}
+
+.unitario {
+  font-size: 0.8rem;
+  color: var(--tinta-suave);
+}
+
+.controles {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.controles button {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  font-weight: 700;
+}
+
+.controles .valor {
+  min-width: 26px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.importe {
+  font-weight: 700;
+  min-width: 84px;
+  text-align: right;
+}
+
+.quitar {
+  border: none;
+  background: none;
+  color: var(--marca);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.entrega {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--linea);
+}
+
+.totales {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding: 1.15rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.totales p {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.totales .total {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--linea);
+  font-size: 1.15rem;
+}
+
+.totales .principal {
+  margin-top: 0.5rem;
+}
+
+.confirmacion {
+  display: flex;
+  flex-direction: column;
+}
+
+.resumen {
+  padding: 1rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.resumen p {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.25rem 0;
+}
+
+.resumen .total {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--linea);
+  font-size: 1.1rem;
+}
+
+.negocios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.negocio {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.negocio h3 {
+  margin: 0;
+}
+
+.dato {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+}
+
+.detalles {
+  margin: 0.35rem 0 0.5rem;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+}
+
+.negocio .boton {
+  margin-top: auto;
+}
+
+.pago {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.85rem;
+  align-items: end;
+  padding: 1rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.pago .principal {
+  min-height: 42px;
+}
+
+.enlace {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--marca-oscuro);
+  font-weight: 600;
+}
+
+.aviso-error {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .item {
+    grid-template-columns: 1fr auto;
+    row-gap: 0.35rem;
+  }
+
+  .importe {
+    text-align: left;
+  }
+}
+
+/* Identidad visual Mercado calido. */
+
+.carrito h1 { font-size: 2.2rem; letter-spacing: -.05em; }
+.grupo, .totales, .resumen, .pago { padding: 1.5rem; border-radius: 18px; }
+.grupo-cabecera { padding-bottom: .75rem; border-bottom: 1px solid var(--linea); }
+.controles button { min-width: 44px; min-height: 44px; }
+.totales { background: #f3ede2; border: none; gap: .8rem; }
+.totales .total { font-size: 1.5rem; }
+.quitar { min-height: 44px; }
+@media(max-width:480px) { .grupo, .totales, .resumen, .pago { padding: 1rem; } .entrega, .pago, .negocios { grid-template-columns: minmax(0, 1fr); } .resumen p { flex-wrap: wrap; } }

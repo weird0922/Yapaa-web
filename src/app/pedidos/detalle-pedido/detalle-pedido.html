@@ -1,0 +1,71 @@
+<section class="detalle">
+  <a class="volver" routerLink="/pedidos">&larr; Volver a mis pedidos</a>
+
+  @if (cargando()) {
+    <p class="estado">Cargando pedido...</p>
+  }
+
+  @if (error()) {
+    <div class="aviso-error">
+      <p>{{ error() }}</p>
+    </div>
+  }
+
+  @if (pedido(); as item) {
+    <header class="ficha">
+      <div>
+        <h1>{{ item.codigoPedido }}</h1>
+        <p class="dato"><strong>Fecha:</strong> {{ item.fechaPedido }}</p>
+        <p class="dato"><strong>Cliente:</strong> {{ item.correoCliente }}</p>
+      </div>
+      <div class="estados">
+        <span class="etiqueta-estado">{{ item.estadoPedido }}</span>
+      </div>
+    </header>
+
+    <div class="resumen">
+      <p><span>Subtotal</span><strong>{{ precio(item.subtotalProductos) }}</strong></p>
+      <p><span>Delivery</span><strong>{{ precio(item.costoDeliveryTotal) }}</strong></p>
+      <p class="total"><span>Total</span><strong>{{ precio(item.total) }}</strong></p>
+    </div>
+
+    <h2 class="subtitulo">Negocios del pedido</h2>
+    <div class="negocios">
+      @for (grupo of item.pedidosNegocio; track grupo.idPedidoNegocio) {
+        <article class="negocio">
+          <header class="negocio-cabecera">
+            <h3>{{ grupo.nombreNegocio }}</h3>
+            <span class="etiqueta-estado">{{ grupo.estado }}</span>
+          </header>
+
+          <p class="dato"><strong>Entrega:</strong> {{ grupo.modalidadEntrega }}</p>
+          @if (grupo.direccionEntrega) {
+            <p class="dato"><strong>Direccion:</strong> {{ grupo.direccionEntrega }}</p>
+          }
+          @if (grupo.costoDelivery > 0) {
+            <p class="dato"><strong>Delivery:</strong> {{ precio(grupo.costoDelivery) }}</p>
+          }
+
+          <ul class="detalles">
+            @for (detalle of grupo.detalles; track detalle.idDetalle) {
+              <li>
+                <span>{{ detalle.cantidad }} x {{ detalle.nombreProducto }}</span>
+                <span>{{ precio(detalle.subtotal) }}</span>
+              </li>
+            }
+          </ul>
+
+          <p class="grupo-total">Total negocio: {{ precio(grupo.total) }}</p>
+
+          @if (grupo.enlaceWhatsApp) {
+            <a class="boton principal" [href]="grupo.enlaceWhatsApp" target="_blank" rel="noopener">
+              Reenviar por WhatsApp
+            </a>
+          }
+        </article>
+      }
+    </div>
+
+    <p class="estado">La coordinación continúa por WhatsApp. YAPAA no registra pagos.</p>
+  }
+</section>

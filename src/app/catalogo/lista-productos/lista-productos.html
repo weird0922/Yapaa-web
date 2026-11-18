@@ -1,0 +1,55 @@
+<section class="listado" [attr.aria-busy]="cargando()">
+  <header class="hero">
+    <div class="hero-texto">
+      <span class="insignia"><span aria-hidden="true">●</span> EL SABOR DE TU COMUNIDAD</span>
+      <h1>Tu próximo antojo,<br><em>a un mejor precio.</em></h1>
+      <p class="ayuda">Descubre lo que preparan los negocios locales. Elige tus favoritos y encuentra una buena razón para darte un gusto.</p>
+      <a class="boton principal explorar" href="#ofertas">Explorar el catálogo <span aria-hidden="true">↗</span></a>
+      <p class="nota-hero">Explora sin registrarte. Ingresa cuando quieras pedir.</p>
+    </div>
+    <div class="hero-visual">
+      <img src="/imagenes/productos/hamburguesa.jpg" alt="Hamburguesa con papas, imagen ilustrativa del catálogo" width="960" height="1440" fetchpriority="high">
+      <div class="sello"><span>PARA TUS ANTOJOS</span><strong>Mucho sabor.<br>Menos gasto.</strong><span>Descubre las ofertas ↓</span></div>
+    </div>
+  </header>
+  <div class="pasos" aria-label="Cómo funciona">
+    <div><span class="numero">01</span><p><strong>Descubre</strong><span>Explora productos y negocios.</span></p></div>
+    <div><span class="numero">02</span><p><strong>Elige tu favorito</strong><span>Revisa el precio y los detalles.</span></p></div>
+    <div><span class="numero">03</span><p><strong>Haz tu pedido</strong><span>Ingresa y continúa la compra.</span></p></div>
+  </div>
+  <div class="titulo-catalogo" id="ofertas">
+    <div><span class="sobre-titulo">ENCUENTRA TU FAVORITO</span><h2>Un gusto para cada antojo</h2></div>
+    <p>De la cocina local a tu mesa.</p>
+  </div>
+  <div class="filtros" role="group" aria-label="Filtrar por categoría">
+    <button type="button" class="chip" [class.activo]="filtroCategoria() === null" [attr.aria-pressed]="filtroCategoria() === null" (click)="filtrarCategoria(null)">Todas las categorías</button>
+    @for (categoria of categorias(); track categoria.idCategoria) {
+      <button type="button" class="chip" [class.activo]="filtroCategoria() === categoria.idCategoria" [attr.aria-pressed]="filtroCategoria() === categoria.idCategoria" (click)="filtrarCategoria(categoria.idCategoria)">{{ categoria.nombre }}</button>
+    }
+  </div>
+  <div class="resumen" role="status" aria-live="polite">
+    @if (!cargando()) {
+      <span><strong>{{ totalElementos() }}</strong> {{ totalElementos() === 1 ? 'producto en el catálogo' : 'productos en el catálogo' }}
+      @if (filtroCategoria() !== null) { <span class="filtro-activo"> · {{ nombreCategoriaActiva() }}</span> }</span>
+    } @else { <span>Buscando tus próximos favoritos…</span> }
+    <span class="nota-fotos">Fotografías de demostración</span>
+  </div>
+  @if (aviso()) { <div class="aviso-exito" role="status"><p>{{ aviso() }}</p><a class="boton principal" routerLink="/carrito">Ver mi carrito →</a></div> }
+  @if (error()) { <div class="aviso-error" role="alert"><p>{{ error() }}</p><button type="button" class="boton secundario" (click)="cargarProductos(pagina())">Reintentar</button></div> }
+  @if (cargando()) {
+    <div class="rejilla esqueletos" aria-hidden="true">
+      @for (numero of [1, 2, 3, 4]; track numero) { <div class="esqueleto"><div></div><span></span><span></span><span></span></div> }
+    </div>
+  }
+  @if (!cargando() && productos().length === 0 && !error()) {
+    <div class="vacio"><span class="vacio-icono" aria-hidden="true">○</span><h2>Aún no hay productos en esta categoría</h2><p class="estado">Prueba con otra categoría o vuelve al catálogo completo.</p>
+      @if (filtroCategoria() !== null) { <button type="button" class="principal" (click)="filtrarCategoria(null)">Ver todo el catálogo</button> }
+    </div>
+  }
+  @if (!cargando() && productos().length > 0) {
+    <div class="rejilla">
+      @for (producto of productos(); track producto.idProducto) { <app-tarjeta-producto [producto]="producto" (agregar)="agregar($event)" /> }
+    </div>
+    <app-paginador [pagina]="pagina()" [totalPaginas]="totalPaginas()" [totalElementos]="totalElementos()" (cambiar)="cambiarPagina($event)" />
+  }
+</section>

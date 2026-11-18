@@ -1,0 +1,58 @@
+<section class="detalle">
+  <a class="volver" routerLink="/negocios">&larr; Volver a negocios</a>
+
+  @if (error()) {
+    <div class="aviso-error">
+      <p>{{ error() }}</p>
+    </div>
+  }
+
+  @if (negocio(); as item) {
+    <header class="ficha">
+      <div>
+        <h1>{{ item.nombreComercial }}</h1>
+        <p class="razon">{{ item.razonSocial }}</p>
+      </div>
+      <span class="etiqueta-estado">{{ item.estadoAprobacion }}</span>
+    </header>
+
+    <ul class="datos">
+      <li><strong>RUC:</strong> {{ item.ruc }}</li>
+      <li><strong>Tipo:</strong> {{ item.tipoContribuyente }}</li>
+      <li><strong>Direccion:</strong> {{ item.direccion }}</li>
+      <li><strong>Ubicacion:</strong> {{ ubicacion() }}</li>
+      <li><strong>Contacto:</strong> {{ item.telefonoContacto }}</li>
+    </ul>
+  }
+
+  <h2 class="subtitulo">Productos de este negocio</h2>
+
+  @if (aviso()) {
+    <div class="aviso-exito">
+      <p>{{ aviso() }}</p>
+    </div>
+  }
+
+  @if (cargando()) {
+    <p class="estado">Cargando productos...</p>
+  }
+
+  @if (!cargando() && productos().length === 0) {
+    <p class="estado">Este negocio aun no publica productos disponibles.</p>
+  }
+
+  @if (productos().length > 0) {
+    <div class="rejilla">
+      @for (producto of productos(); track producto.idProducto) {
+        <app-tarjeta-producto [producto]="producto" (agregar)="agregar($event)" />
+      }
+    </div>
+
+    <app-paginador
+      [pagina]="pagina()"
+      [totalPaginas]="totalPaginas()"
+      [totalElementos]="totalElementos()"
+      (cambiar)="cambiarPagina($event)"
+    />
+  }
+</section>

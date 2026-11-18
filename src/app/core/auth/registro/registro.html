@@ -1,0 +1,63 @@
+<section class="acceso">
+  <h1 class="titulo">Crea tu cuenta YAPAA</h1>
+  <p class="ayuda">Crea tu cuenta para comprar. También podrás afiliar un negocio desde tu perfil.</p>
+
+  <form class="formulario" [formGroup]="formulario" (ngSubmit)="registrar()">
+    <label class="campo">
+      <span>Correo</span>
+      <input type="email" formControlName="correo" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+      @if (mostrarError('correo')) {
+        <small class="error">Ingresa un correo valido.</small>
+      }
+    </label>
+
+    <label class="campo">
+      <span>Contrasena</span>
+      <input type="password" formControlName="contrasena" placeholder="Minimo 6 caracteres" autocomplete="new-password">
+      @if (mostrarError('contrasena')) {
+        <small class="error">La contrasena debe tener al menos 6 caracteres.</small>
+      }
+    </label>
+
+    <div class="dos-columnas">
+      <label class="campo">
+        <span>Nombres</span>
+        <input type="text" formControlName="nombres" placeholder="Tus nombres">
+        @if (mostrarError('nombres')) {
+          <small class="error">El nombre es obligatorio.</small>
+        }
+      </label>
+
+      <label class="campo">
+        <span>Apellidos</span>
+        <input type="text" formControlName="apellidos" placeholder="Tus apellidos">
+        @if (mostrarError('apellidos')) {
+          <small class="error">El apellido es obligatorio.</small>
+        }
+      </label>
+    </div>
+
+    <label class="campo">
+      <span>Telefono</span>
+      <input type="tel" formControlName="telefono" placeholder="9 digitos (ej. 999999999)" autocomplete="tel">
+      @if (mostrarError('telefono')) {
+        <small class="error">Ingresa un telefono de 9 digitos.</small>
+      }
+    </label>
+
+    @if (error()) {
+      <div class="aviso-error">
+        <p>{{ error() }}</p>
+      </div>
+    }
+
+    <div class="acciones">
+      <button type="submit" class="principal" [disabled]="cargando()">
+        {{ cargando() ? 'Registrando...' : 'Crear cuenta' }}
+      </button>
+    </div>
+  </form>
+
+  <p class="registro">Ya tienes cuenta? <a routerLink="/login" [queryParams]="{retorno:ruta.snapshot.queryParamMap.get('retorno'),modo:ruta.snapshot.queryParamMap.get('modo')}">Inicia sesion</a></p>
+  <p class="registro">¿Eres negocio? <a routerLink="/afiliate">Conoce cómo afiliarte</a></p>
+</section>

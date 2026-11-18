@@ -1,0 +1,141 @@
+<section class="carrito">
+  @if (pedidoCreado(); as pedido) {
+    <div class="confirmacion">
+      <h1>Pedido {{ pedido.codigoPedido }} registrado</h1>
+      <p class="ayuda">
+        Tu solicitud quedó registrada. Continúa por WhatsApp para coordinar con cada negocio. YAPAA no registra pagos.
+      </p>
+
+      <div class="resumen">
+        <p><strong>Subtotal:</strong> {{ precio(pedido.subtotalProductos) }}</p>
+        <p><strong>Delivery:</strong> {{ precio(pedido.costoDeliveryTotal) }}</p>
+        <p class="total"><strong>Total:</strong> {{ precio(pedido.total) }}</p>
+        <p><strong>Estado:</strong> <span class="etiqueta-estado">{{ pedido.estadoPedido }}</span></p>
+
+      </div>
+
+      <h2 class="subtitulo">Continúa con cada negocio por WhatsApp</h2>
+      <div class="negocios">
+        @for (grupo of pedido.pedidosNegocio; track grupo.idPedidoNegocio) {
+          <article class="negocio">
+            <h3>{{ grupo.nombreNegocio }}</h3>
+            <p class="dato"><strong>Entrega:</strong> {{ grupo.modalidadEntrega }}</p>
+            @if (grupo.direccionEntrega) {
+              <p class="dato"><strong>Direccion:</strong> {{ grupo.direccionEntrega }}</p>
+            }
+            <p class="dato"><strong>Total:</strong> {{ precio(grupo.total) }}</p>
+            <ul class="detalles">
+              @for (detalle of grupo.detalles; track detalle.idDetalle) {
+                <li>{{ detalle.cantidad }} x {{ detalle.nombreProducto }} — {{ precio(detalle.subtotal) }}</li>
+              }
+            </ul>
+            @if (grupo.enlaceWhatsApp) {
+              <a class="boton principal" [href]="grupo.enlaceWhatsApp" target="_blank" rel="noopener">
+                Enviar pedido por WhatsApp
+              </a>
+            }
+          </article>
+        }
+      </div>
+
+      <a class="enlace" [routerLink]="['/pedidos', pedido.idPedido]">Ver detalle del pedido</a>
+    </div>
+  } @else {
+    <h1>Tu carrito</h1>
+
+    @if (vacio()) {
+      <p class="estado">Tu carrito esta vacio.</p>
+      <a class="boton principal" routerLink="/catalogo">Explorar el catalogo</a>
+    } @else {
+      @if (error()) {
+        <div class="aviso-error">
+          <p>{{ error() }}</p>
+        </div>
+      }
+
+      <div class="grupos">
+        @for (grupo of grupos(); track grupo.idNegocio) {
+          <article class="grupo">
+            <header class="grupo-cabecera">
+              <h2>{{ grupo.nombreNegocio }}</h2>
+              <span class="subtotal">Subtotal: {{ precio(grupo.subtotal) }}</span>
+            </header>
+
+            <ul class="items">
+              @for (item of grupo.items; track item.producto.idProducto) {
+                <li class="item">
+                  <div class="item-info">
+                    <span class="nombre">{{ item.producto.nombre }}</span>
+                    <span class="unitario">{{ precio(item.producto.precioDescuento) }} c/u</span>
+                  </div>
+                  <div class="controles">
+                    <button
+                      type="button"
+                      (click)="cambiarCantidad(item.producto.idProducto, item.cantidad - 1)"
+                    >
+                      -
+                    </button>
+                    <span class="valor">{{ item.cantidad }}</span>
+                    <button
+                      type="button"
+                      (click)="cambiarCantidad(item.producto.idProducto, item.cantidad + 1)"
+                      [disabled]="item.cantidad >= item.producto.stock"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <span class="importe">{{ precio(item.producto.precioDescuento * item.cantidad) }}</span>
+                  <button type="button" class="quitar" (click)="quitar(item.producto.idProducto)">
+                    Quitar
+                  </button>
+                </li>
+              }
+            </ul>
+
+            <div class="entrega">
+              <label class="campo">
+                <span>Modalidad de entrega</span>
+                <select [value]="opcionDe(grupo.idNegocio).modalidad" (change)="cambiarModalidad(grupo.idNegocio, $event)">
+                  <option value="RECOJO">Recojo en tienda</option>
+                  <option value="DELIVERY">Delivery</option>
+                </select>
+              </label>
+
+              @if (opcionDe(grupo.idNegocio).modalidad === 'DELIVERY') {
+                <label class="campo">
+                  <span>Direccion de entrega</span>
+                  <input
+                    type="text"
+                    placeholder="Av. Ejemplo 123"
+                    [value]="opcionDe(grupo.idNegocio).direccion"
+                    (input)="cambiarDireccion(grupo.idNegocio, $event)"
+                  >
+                </label>
+
+                <label class="campo">
+                  <span>Costo de delivery (S/)</span>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    [value]="opcionDe(grupo.idNegocio).costoDelivery"
+                    (input)="cambiarCosto(grupo.idNegocio, $event)"
+                  >
+                </label>
+              }
+            </div>
+          </article>
+        }
+      </div>
+
+      <aside class="totales">
+        <p><span>Subtotal</span><strong>{{ precio(subtotal()) }}</strong></p>
+        <p><span>Delivery</span><strong>{{ precio(costoDeliveryTotal()) }}</strong></p>
+        <p class="total"><span>Total</span><strong>{{ precio(total()) }}</strong></p>
+        <button type="button" class="principal" [disabled]="generando()" (click)="generarPedido()">
+          {{ generando() ? 'Generando pedido...' : 'Registrar pedido y continuar por WhatsApp' }}
+        </button>
+      </aside>
+    }
+  }
+</section>

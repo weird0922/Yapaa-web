@@ -1,0 +1,26 @@
+<section class="cuenta">
+  <a class="volver" routerLink="/catalogo">← Volver al catálogo</a>
+  <header class="presentacion"><span class="sobre-titulo">CRECEMOS CONTIGO</span><h1>Un espacio propio<br>para tu negocio.</h1><p>Crea una cuenta de negocio independiente. Tu cuenta de cliente se mantiene para seguir comprando.</p></header>
+  @if(creada()) {
+    <div class="panel"><span class="etiqueta-estado">Solicitud pendiente</span><h2>Tu cuenta de negocio ya está creada.</h2><p>Revisaremos los datos para aprobar la afiliación. Ingresa con el correo y contraseña nuevos para administrar tu cuenta y tus productos.</p><p>Tu cuenta de cliente no ha cambiado.</p><a class="boton principal" routerLink="/login" [queryParams]="{modo:'negocio'}">Ingresar como negocio →</a></div>
+  } @else {
+  <div class="distribucion">
+    <aside class="beneficios"><h2>Dos cuentas. Dos experiencias.</h2><ol><li><strong>Cliente</strong><span>Explora el catálogo y envía sus pedidos por WhatsApp.</span></li><li><strong>Negocio</strong><span>Administra su cuenta y sus propios productos. No realiza compras.</span></li><li><strong>Afiliación</strong><span>La cuenta nueva se revisa antes de aprobar la publicación del negocio. El primer mes tiene una comisión promocional del 10%; después, el Plan Normal aplica 15%. Puedes elegir Pro (20%) para acceder a indicadores y reportes.</span></li></ol>
+    @if(sesion.activa()){<p class="nota">Tu sesión actual se conservará al enviar esta solicitud. Usa otro correo para el negocio.</p>}
+    @if(demo()){<p class="nota">Para probar el autocompletado sin clave externa puedes consultar el RUC ficticio <strong>20000000002</strong>. No representa un contribuyente real.</p>}</aside>
+    <div class="panel"><h2>Registra tu cuenta de negocio</h2><form class="formulario" [formGroup]="formulario" (ngSubmit)="enviar()">
+      <div class="dos-columnas"><label class="campo"><span>Correo del negocio *</span><input type="email" formControlName="correo" autocomplete="username">@if(invalido('correo')){<small class="error">Ingresa un correo válido diferente al de tu cuenta cliente.</small>}</label><label class="campo"><span>Contraseña nueva *</span><input type="password" formControlName="contrasena" autocomplete="new-password">@if(invalido('contrasena')){<small class="error">Usa al menos 6 caracteres.</small>}</label></div>
+      <label class="campo"><span>RUC *</span><input formControlName="ruc" inputmode="numeric" maxlength="11" placeholder="11 dígitos" aria-describedby="estado-ruc">@if(invalido('ruc')){<small class="error">Ingresa 11 dígitos que empiecen por 10 o 20.</small>}</label>
+      <div id="estado-ruc" role="status">@if(consultando()){<p class="nota">Consultando razón social…</p>}@if(errorRuc()){<p class="error">{{errorRuc()}}</p>}@if(rucDatos();as datos){<p class="nota">{{datos.demostracion?'Datos ficticios de demostración. No verificados ante SUNAT.':'Razón social consultada: '+datos.estado+' / '+datos.condicion}}</p>}</div>
+      <label class="campo"><span>Razón social *</span><input formControlName="razonSocial" readonly placeholder="Se completa al consultar el RUC"><small class="nota">La razón social proviene de la consulta; el nombre comercial puede ser distinto.</small></label>
+      <label class="campo"><span>Nombre comercial del local *</span><input formControlName="nombreComercial" maxlength="150" autocomplete="organization" placeholder="Así conocen a tu negocio">@if(invalido('nombreComercial')){<small class="error">Completa el nombre del local.</small>}</label>
+      <label class="campo"><span>Tipo de contribuyente</span><select formControlName="tipoContribuyente"><option value="PERSONA_NATURAL">Persona natural con negocio</option><option value="PERSONA_JURIDICA">Persona jurídica</option></select></label>
+      <label class="campo"><span>Dirección del local *</span><input formControlName="direccion" maxlength="250" autocomplete="street-address">@if(invalido('direccion')){<small class="error">Completa la dirección.</small>}</label>
+      <div class="dos-columnas"><label class="campo"><span>Distrito *</span><input formControlName="distrito" maxlength="100">@if(invalido('distrito')){<small class="error">Completa el distrito.</small>}</label><label class="campo"><span>Ciudad *</span><input formControlName="ciudad" maxlength="100" autocomplete="address-level2">@if(invalido('ciudad')){<small class="error">Completa la ciudad.</small>}</label></div>
+      <label class="campo"><span>Teléfono de WhatsApp *</span><input type="tel" formControlName="telefonoContacto" maxlength="20" autocomplete="tel">@if(invalido('telefonoContacto')){<small class="error">Ingresa un teléfono válido.</small>}</label>
+      <p class="nota">Los campos con * son obligatorios. Se creará otra cuenta con acceso exclusivo de negocio; tu cuenta cliente no cambiará.</p>
+      @if(error()){<div class="aviso-error" role="alert">{{error()}}</div>}
+      <button class="principal" type="submit" [disabled]="enviando()||consultando()">{{enviando()?'Creando cuenta…':'Crear cuenta de negocio →'}}</button>
+    </form></div>
+  </div>}
+</section>

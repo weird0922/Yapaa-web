@@ -1,0 +1,86 @@
+<section class="detalle">
+  @if (cargando()) {
+    <p class="estado">Cargando producto...</p>
+  }
+
+  @if (error()) {
+    <div class="aviso-error" role="alert">
+      <p>{{ error() }}</p>
+      <a class="boton secundario" routerLink="/catalogo">Volver al catálogo</a>
+    </div>
+  }
+
+  @if (producto(); as item) {
+    <a class="volver" routerLink="/catalogo">&larr; Volver al catálogo</a>
+
+    <div class="ficha">
+      <div class="media">
+        @if (hayImagen()) {
+          <img [src]="item.imagenUrl" [alt]="item.nombre">
+        } @else {
+          <span class="sin-imagen" aria-hidden="true">{{ inicial() }}</span>
+        }
+      </div>
+
+      <div class="principal">
+        <span class="etiqueta-estado">{{ item.nombreCategoria }}</span>
+        <h1>{{ item.nombre }}</h1>
+        <p class="negocio">
+          Vendido por
+          <a [routerLink]="['/negocios', item.idNegocio]">{{ item.nombreNegocio }}</a>
+        </p>
+        <p class="descripcion">{{ item.descripcion }}</p>
+
+        <div class="precios">
+          <span class="precio">{{ precio(item.precioDescuento) }}</span>
+          @if (tieneDescuento()) {
+            <span class="precio-tachado">{{ precio(item.precioNormal) }}</span>
+            <span class="descuento">-{{ item.descuentoPorcentaje }}%</span>
+          }
+        </div>
+
+        @if (tieneDescuento()) {
+          <p class="ahorro">Ahorras {{ precio(ahorro()) }}</p>
+        }
+      </div>
+
+      <aside class="compra">
+        <p class="dato"><strong>Stock:</strong> {{ item.stock }}</p>
+        <p class="dato"><strong>Estado:</strong> {{ item.estadoPublicacion }}</p>
+        <p class="dato"><strong>Fecha límite de venta:</strong> {{ item.fechaLimiteVenta | date:'dd/MM/yyyy, HH:mm' }}</p>
+
+        <app-cuenta-regresiva [fecha]="item.fechaLimiteVenta" [publicada]="item.fechaPublicacion" />
+        <div class="cantidad">
+          <span>Cantidad</span>
+          <div class="controles">
+            <button type="button" aria-label="Disminuir cantidad" (click)="cambiarCantidad(-1)" [disabled]="cantidad() <= 1">-</button>
+            <span class="valor">{{ cantidad() }}</span>
+            <button
+              type="button"
+              aria-label="Aumentar cantidad" (click)="cambiarCantidad(1)"
+              [disabled]="cantidad() >= item.stock"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        @if (aviso()) {
+          <div class="aviso-exito" role="status">
+            <p>{{ aviso() }}</p>
+          </div>
+        }
+
+        <button
+          type="button"
+          class="principal"
+          [disabled]="item.stock <= 0||vencido()||!puedeComprar()"
+          (click)="agregar()"
+        >
+          {{ !puedeComprar()?'Solo cuenta de cliente':vencido()?'Oferta finalizada':item.stock>0?'Agregar al carrito':'Sin stock' }}
+        </button>
+        <a class="boton secundario" routerLink="/carrito">Ir al carrito</a>
+      </aside>
+    </div>
+  }
+</section>

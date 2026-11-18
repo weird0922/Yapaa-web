@@ -1,0 +1,48 @@
+<section class="listado">
+  <header class="titulo-fila">
+    <div>
+      <h1>Mis pedidos</h1>
+      <p class="ayuda">Revisa el estado de tus pedidos y vuelve a confirmar por WhatsApp.</p>
+    </div>
+  </header>
+
+  @if (error()) {
+    <div class="aviso-error">
+      <p>{{ error() }}</p>
+      <button type="button" (click)="cargar(pagina())">Reintentar</button>
+    </div>
+  }
+
+  @if (cargando()) {
+    <p class="estado">Cargando pedidos...</p>
+  }
+
+  @if (!cargando() && pedidos().length === 0 && !error()) {
+    <p class="estado">Todavia no tienes pedidos registrados.</p>
+    <a class="boton principal" routerLink="/catalogo">Explorar el catalogo</a>
+  }
+
+  @if (pedidos().length > 0) {
+    <div class="lista">
+      @for (pedido of pedidos(); track pedido.idPedido) {
+        <article class="tarjeta">
+          <div class="cabecera">
+            <h3>{{ pedido.codigoPedido }}</h3>
+            <span class="etiqueta-estado">{{ pedido.estadoPedido }}</span>
+          </div>
+          <p class="dato"><strong>Fecha:</strong> {{ pedido.fechaPedido }}</p>
+          <p class="dato"><strong>Contenido:</strong> {{ resumen(pedido) }}</p>
+          <p class="total">Total: {{ precio(pedido.total) }}</p>
+          <a class="boton" [routerLink]="['/pedidos', pedido.idPedido]">Ver detalle</a>
+        </article>
+      }
+    </div>
+
+    <app-paginador
+      [pagina]="pagina()"
+      [totalPaginas]="totalPaginas()"
+      [totalElementos]="totalElementos()"
+      (cambiar)="cambiarPagina($event)"
+    />
+  }
+</section>

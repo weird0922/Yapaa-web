@@ -1,0 +1,25 @@
+<article class="tarjeta">
+  <a class="media" [routerLink]="['/producto', producto.idProducto]">
+    @if (hayImagen()) {
+      <img [src]="producto.imagenUrl" [alt]="producto.nombre" loading="lazy" decoding="async" width="960" height="720" (error)="imagenFallida = true">
+    } @else { <span class="sin-imagen" aria-hidden="true">{{ inicial() }}</span> }
+    @if (tieneDescuento()) { <span class="descuento">−{{ producto.descuentoPorcentaje }}%</span> }
+    @if (agotado()) { <span class="agotado">Agotado</span> }
+  </a>
+  <div class="cuerpo">
+    <span class="etiqueta-estado">{{ producto.nombreCategoria }}</span>
+    <h3 class="nombre"><a [routerLink]="['/producto', producto.idProducto]">{{ producto.nombre }}</a></h3>
+    <p class="negocio">{{ producto.nombreNegocio }}</p>
+    <p class="descripcion">{{ producto.descripcion }}</p>
+    <div class="precios"><span class="precio">{{ precio(producto.precioDescuento) }}</span>
+      @if (tieneDescuento()) { <s class="precio-tachado">{{ precio(producto.precioNormal) }}</s> }
+    </div>
+    @if (tieneDescuento()) { <p class="ahorro">Ahorras {{ precio(ahorro()) }}</p> }
+    <p class="stock">{{ agotado() ? 'Sin stock por ahora' : producto.stock + ' unidades en stock' }}</p>
+    <app-cuenta-regresiva [fecha]="producto.fechaLimiteVenta" [publicada]="producto.fechaPublicacion" />
+    <div class="acciones">
+      <a class="boton secundario" [routerLink]="['/producto', producto.idProducto]" [attr.aria-label]="'Ver detalle de ' + producto.nombre">Ver detalle</a>
+      <button type="button" class="principal" [disabled]="agotado()||!puedeComprar()" (click)="agregarAlCarrito()" [attr.aria-label]="(agotado() ? 'Agotado: ' : 'Agregar al carrito: ') + producto.nombre">{{ !puedeComprar()?'Solo clientes':vencido()?'Finalizada':agotado()?'Agotado':'+ Agregar' }}</button>
+    </div>
+  </div>
+</article>

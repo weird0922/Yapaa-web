@@ -1,0 +1,39 @@
+.hero { display: grid; grid-template-columns: 1.1fr 1fr; min-height: 390px; overflow: hidden; border-radius: 24px; background: #f3ede2; }
+.hero-texto { align-self: center; padding: 2.8rem 2.6rem; }
+.insignia { display: inline-flex; gap: .5rem; align-items: center; color: var(--marca-oscuro); font-size: .65rem; font-weight: 800; letter-spacing: .13em; }
+.hero h1 { margin: 1.1rem 0 1rem; font-size: clamp(2.2rem, 3.8vw, 3.55rem); font-weight: 800; line-height: 1.08; letter-spacing: -.055em; }
+.hero h1 em { color: var(--marca); font-style: normal; }
+.ayuda { max-width: 380px; margin: 0 0 1.4rem; color: var(--tinta-suave); font-size: .9rem; }
+.explorar { gap: 1.2rem; }
+.nota-hero { margin: .8rem 0 0; font-size: .7rem; color: var(--tinta-suave); }
+.hero-visual { position: relative; min-height: 390px; margin: 14px 14px 14px 0; border-radius: 17px; overflow: hidden; background: #dfc39e; }
+.hero-visual > img { position: absolute; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; }
+.sello { position: absolute; left: 1.1rem; bottom: 1.1rem; display: grid; gap: .45rem; padding: 1.1rem 1.35rem; border-radius: 13px; background: #fff8e9; color: #443125; box-shadow: 0 4px 18px #291f1720; }
+.sello > span { font-size: .56rem; font-weight: 750; letter-spacing: .08em; }
+.sello > strong { font-size: 1.25rem; line-height: 1.1; letter-spacing: -.035em; }
+.pasos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; padding: 1.65rem .5rem 2rem; border-bottom: 1px solid var(--linea); }
+.pasos > div { display: flex; align-items: center; gap: .8rem; }
+.numero { display: grid; place-items: center; width: 39px; height: 39px; border: 1px solid var(--linea); border-radius: 50%; flex-shrink: 0; font-size: .75rem; color: var(--marca); font-weight: 750; }
+.pasos p { display: grid; gap: .1rem; margin: 0; }
+.pasos strong { font-size: .83rem; }
+.pasos p > span { font-size: .72rem; color: var(--tinta-suave); }
+.titulo-catalogo { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; padding-top: 2.3rem; margin-bottom: 1.35rem; scroll-margin-top: 150px; }
+.sobre-titulo { font-size: .62rem; letter-spacing: .14em; font-weight: 750; color: var(--marca); }
+.titulo-catalogo h2 { margin: .45rem 0 0; font-size: clamp(1.5rem, 2.5vw, 2rem); }
+.titulo-catalogo > p { font-size: .8rem; color: var(--tinta-suave); margin: 0 0 .15rem; }
+.filtros { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1.25rem; }
+.chip { min-height: 44px; padding: .55rem 1rem; border: 1px solid var(--linea); border-radius: 11px; background: var(--superficie); color: var(--tinta-suave); font-size: .8rem; font-weight: 650; transition: background .15s, border-color .15s; }
+.chip:hover { border-color: var(--marca); color: var(--marca-oscuro); }
+.chip.activo { background: var(--tinta); border-color: var(--tinta); color: #fff; }
+.resumen { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; color: var(--tinta-suave); font-size: .78rem; }
+
+.rejilla { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; align-items: stretch; }
+.vacio { padding: 3rem 1.5rem; border: 1px dashed var(--linea); border-radius: 18px; background: var(--superficie); text-align: center; }
+.vacio h2 { font-size: 1.2rem; }
+.aviso-exito, .aviso-error { margin-bottom: 1rem; }
+.esqueleto { padding: 12px; background: var(--superficie); border: 1px solid var(--linea); border-radius: 18px; }
+.esqueleto div { height: 175px; background: #eae4da; border-radius: 11px; }
+.esqueleto span { display: block; height: 15px; background: #eee9e1; margin: 16px 0; border-radius: 4px; }
+@media (max-width: 1000px) { .rejilla { grid-template-columns: repeat(3, minmax(0, 1fr)); } .hero-texto { padding: 2rem; } }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr; } .hero-texto { padding: 1.8rem; } .hero h1 { font-size: 2.55rem; } .hero-visual { min-height: 235px; margin: 0 12px 12px; } .hero-visual > img { object-position: center 58%; } .sello { left: auto; right: 1rem; } .pasos { gap: .6rem; padding: 1.3rem 0; } .pasos > div { flex-direction: column; align-items: flex-start; gap: .5rem; } .pasos p > span { font-size: .66rem; } .pasos strong { font-size: .75rem; } .titulo-catalogo > p { display: none; } .rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; } }
+@media (max-width: 480px) { .rejilla { grid-template-columns: 1fr; } .hero-texto { padding: 1.6rem 1.3rem; } .hero h1 { font-size: 2.3rem; } .filtros { gap: .45rem; } .chip { font-size: .74rem; padding: .5rem .75rem; } }

@@ -1,0 +1,23 @@
+:host { display: block; height: 100%; }
+.tarjeta { display: flex; flex-direction: column; height: 100%; padding: 8px; border: 1px solid var(--linea); border-radius: 18px; background: var(--superficie); transition: box-shadow .18s, transform .18s; }
+.tarjeta:hover, .tarjeta:focus-within { box-shadow: 0 10px 28px #3023170d; transform: translateY(-3px); }
+.media { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: #f3ede2; }
+.media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sin-imagen { display: grid; place-items: center; height: 100%; color: var(--marca); font-weight: 850; font-size: 3rem; }
+.descuento { position: absolute; top: .65rem; left: .65rem; padding: .24rem .6rem; border-radius: 7px; background: #fff8eb; color: #80300f; font-size: .78rem; font-weight: 800; box-shadow: 0 2px 5px #0000000d; }
+.agotado { position: absolute; bottom: .65rem; right: .65rem; padding: .2rem .6rem; border-radius: 6px; background: #29251f; color: #fff; font-size: .7rem; }
+.cuerpo { display: flex; flex-direction: column; align-items: flex-start; flex: 1; gap: .4rem; padding: 1rem .55rem .55rem; }
+.etiqueta-estado { font-size: .6rem; padding: .17rem .45rem; text-transform: uppercase; letter-spacing: .045em; }
+.nombre { margin: .15rem 0 0; font-size: 1rem; letter-spacing: -.025em; line-height: 1.35; }
+.nombre a { color: inherit; text-decoration: none; }
+.nombre a:hover { color: var(--marca); text-decoration: underline; }
+.negocio { margin: 0; font-size: .71rem; color: var(--tinta-suave); font-weight: 600; }
+.descripcion { margin: .1rem 0 .35rem; font-size: .75rem; line-height: 1.5; color: var(--tinta-suave); }
+.precios { display: flex; flex-wrap: wrap; align-items: baseline; gap: .55rem; margin-top: auto; padding-top: .6rem; }
+.precio { font-weight: 850; font-size: 1.25rem; letter-spacing: -.035em; }
+.precio-tachado { font-size: .76rem; color: var(--tinta-suave); }
+.ahorro { color: var(--exito); background: var(--exito-suave); padding: .12rem .45rem; border-radius: 5px; font-size: .65rem; font-weight: 650; margin: 0; }
+.stock { margin: .15rem 0; font-size: .69rem; color: var(--tinta-suave); }
+.acciones { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; margin-top: .5rem; width: 100%; }
+.acciones a, .acciones button { min-width: 0; min-height: 44px; padding: .5rem .3rem; font-size: .72rem; border-radius: 9px; }
+@media (max-width: 480px) { .media { aspect-ratio: 16 / 10; } .cuerpo { padding: 1rem .7rem .7rem; } .nombre { font-size: 1.1rem; } .descripcion { font-size: .85rem; } .acciones a, .acciones button { font-size: .85rem; } }

@@ -1,0 +1,70 @@
+.titulo-fila {
+  margin-bottom: 1.25rem;
+}
+
+.titulo-fila h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+}
+
+.ayuda {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.cabecera h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.razon {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--marca-oscuro);
+  font-weight: 600;
+}
+
+.dato {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+}
+
+.tarjeta .boton {
+  margin-top: 0.5rem;
+}
+
+.aviso-error {
+  margin-bottom: 1rem;
+}
+
+/* Identidad visual Mercado calido. */
+
+.titulo-fila { margin-bottom: 2rem; }
+.titulo-fila h1 { font-size: 2.2rem; }
+.tarjeta { padding: 1.5rem; border-radius: 18px; gap: .65rem; box-shadow: 0 5px 20px #30231705; }
+.tarjeta .boton { margin-top: auto; }
+@media(max-width:360px) { .rejilla { grid-template-columns: minmax(0, 1fr); } }

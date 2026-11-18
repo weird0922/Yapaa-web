@@ -1,0 +1,48 @@
+<section class="listado">
+  <header class="titulo-fila">
+    <div>
+      <h1>Negocios en YAPAA</h1>
+      <p class="ayuda">Descubre los restaurantes y tiendas que ya venden en la plataforma.</p>
+    </div>
+  </header>
+
+  @if (error()) {
+    <div class="aviso-error">
+      <p>{{ error() }}</p>
+      <button type="button" (click)="cargar(pagina())">Reintentar</button>
+    </div>
+  }
+
+  @if (cargando()) {
+    <p class="estado">Cargando negocios...</p>
+  }
+
+  @if (!cargando() && negocios().length === 0 && !error()) {
+    <p class="estado">Todavia no hay negocios registrados.</p>
+  }
+
+  @if (negocios().length > 0) {
+    <div class="rejilla">
+      @for (negocio of negocios(); track negocio.idNegocio) {
+        <article class="tarjeta">
+          <div class="cabecera">
+            <h3>{{ negocio.nombreComercial }}</h3>
+            <span class="etiqueta-estado">{{ negocio.estadoAprobacion }}</span>
+          </div>
+          <p class="razon">{{ negocio.razonSocial }}</p>
+          <p class="dato"><strong>Ubicacion:</strong> {{ ubicacion(negocio) }}</p>
+          <p class="dato"><strong>Direccion:</strong> {{ negocio.direccion }}</p>
+          <p class="dato"><strong>Contacto:</strong> {{ negocio.telefonoContacto }}</p>
+          <a class="boton" [routerLink]="['/negocios', negocio.idNegocio]">Ver productos</a>
+        </article>
+      }
+    </div>
+
+    <app-paginador
+      [pagina]="pagina()"
+      [totalPaginas]="totalPaginas()"
+      [totalElementos]="totalElementos()"
+      (cambiar)="cambiarPagina($event)"
+    />
+  }
+</section>

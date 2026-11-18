@@ -1,0 +1,7 @@
+<nav class="paginador" aria-label="Paginacion">
+  <button type="button" [disabled]="!puedeAtras" (click)="irAnterior()">&larr; Anterior</button>
+  <span class="resumen">
+    Pagina {{ numeroVisible }} de {{ totalPaginas }} &middot; {{ totalElementos }} resultados
+  </span>
+  <button type="button" [disabled]="!puedeAdelante" (click)="irSiguiente()">Siguiente &rarr;</button>
+</nav>

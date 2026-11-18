@@ -1,0 +1,139 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>YAPAA · Prototipo A · Mercado cálido</title><style>:root {
+  --marca: #b94316;
+  --marca-oscuro: #90300d;
+  --marca-suave: #fff0e7;
+  --tinta: #29251f;
+  --tinta-suave: #696158;
+  --linea: #e8e1d7;
+  --superficie: #ffffff;
+  --fondo: #fcfaf7;
+  --exito: #286143;
+  --exito-suave: #eef5ed;
+  --radio: 16px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 150px; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: var(--fondo); color: var(--tinta); line-height: 1.55; }
+h1, h2, h3 { line-height: 1.15; letter-spacing: -0.035em; text-wrap: balance; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+a { color: var(--marca-oscuro); }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid #285c86; outline-offset: 4px; }
+button.principal, .boton { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 46px; padding: .65rem 1.1rem; border: 1px solid var(--marca); border-radius: 12px; background: var(--superficie); color: var(--marca); font-weight: 700; text-decoration: none; transition: background .18s, transform .18s; }
+button.principal, .boton.principal { background: var(--marca); color: #fff; }
+button.principal:hover:not(:disabled), .boton.principal:hover { background: var(--marca-oscuro); border-color: var(--marca-oscuro); }
+.boton.secundario { color: var(--tinta); border-color: var(--linea); }
+.boton.secundario:hover { background: var(--fondo); border-color: var(--tinta-suave); }
+input, select, textarea { width: 100%; min-width: 0; min-height: 46px; padding: .6rem .85rem; border: 1px solid #b9afa4; border-radius: 10px; background: var(--superficie); color: var(--tinta); }
+textarea { min-height: 100px; }
+input.ng-invalid.ng-touched, select.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched { border-color: #a32b25; background: #fff5f4; }
+button:disabled { opacity: .6; cursor: not-allowed; }
+.aviso-error, .aviso-exito { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; padding: 1rem 1.15rem; border-radius: var(--radio); }
+.aviso-error { border-left: 4px solid #a32b25; background: #fbeae8; color: #7a1f17; }
+.aviso-exito { border-left: 4px solid var(--exito); background: var(--exito-suave); color: #245538; }
+.aviso-error p, .aviso-exito p { margin: 0; }
+.estado { color: var(--tinta-suave); }
+.etiqueta-estado { display: inline-block; padding: .22rem .65rem; border-radius: 7px; background: var(--marca-suave); color: var(--marca-oscuro); font-size: .72rem; font-weight: 750; }
+.campo { display: flex; flex-direction: column; gap: .4rem; }
+.campo > span { font-size: .88rem; font-weight: 650; color: var(--tinta-suave); }
+.saltar-contenido { position: fixed; top: 8px; left: 12px; z-index: 100; padding: .7rem 1rem; background: var(--tinta); color: white; border-radius: 8px; transform: translateY(-160%); }
+.saltar-contenido:focus { transform: none; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+main { max-width: 1248px; min-height: 65vh; margin: 0 auto; padding: 2rem 2rem 4rem; }
+main:focus { outline: none; }
+.pie { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem 2rem; max-width: 1184px; margin: 0 auto; padding: 2rem 0; border-top: 1px solid var(--linea); color: var(--tinta-suave); font-size: .8rem; }
+.pie-marca { color: var(--tinta); font-size: 1.4rem; font-weight: 900; text-decoration: none; letter-spacing: -.07em; }
+.pie-marca span { color: var(--marca); }
+.pie p { flex: 1; margin: 0; }
+@media (max-width: 700px) { main { padding: 1rem 1rem 2.5rem; } .pie { margin: 0 1rem; padding: 1.5rem 0; } .pie > span { flex-basis: 100%; } }
+
+.encabezado { background: var(--superficie); border-bottom: 1px solid var(--linea); position: sticky; top: 0; z-index: 50; }
+.barra { max-width: 1248px; margin: auto; display: flex; align-items: center; gap: 2.6rem; padding: 1rem 2rem; min-height: 86px; }
+.marca { font-size: 1.8rem; font-weight: 950; letter-spacing: -.085em; line-height: 1; color: var(--tinta); text-decoration: none; white-space: nowrap; }
+.marca > span { color: var(--marca); }
+.navegacion { display: flex; align-items: center; gap: 1.6rem; margin-right: auto; }
+.navegacion a { position: relative; display: inline-flex; align-items: center; min-height: 44px; color: var(--tinta-suave); text-decoration: none; font-size: .88rem; font-weight: 650; white-space: nowrap; }
+.navegacion a.activo, .navegacion a:hover { color: var(--marca); }
+.navegacion a.activo::after { content: ''; position: absolute; bottom: 0; left: 0; width: 22px; height: 3px; border-radius: 3px; background: var(--marca); }
+.sesion { display: flex; align-items: center; gap: .65rem; margin-left: auto; }
+.carrito { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; color: var(--tinta); text-decoration: none; font-weight: 700; font-size: .88rem; }
+.contador { display: inline-grid; place-items: center; min-width: 24px; height: 24px; border-radius: 50%; background: var(--marca); color: #fff; font-size: .72rem; }
+.usuario { font-size: .8rem; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--tinta-suave); }
+.salir { min-height: 44px; padding: .4rem .7rem; border: 1px solid var(--linea); border-radius: 10px; background: var(--superficie); color: var(--tinta-suave); }
+.compacto { min-height: 42px; padding: .5rem .85rem; font-size: .82rem; }
+@media (max-width: 950px) { .barra { flex-wrap: wrap; gap: .7rem 1rem; } .navegacion { order: 3; width: 100%; gap: 1.5rem; } }
+@media (max-width: 700px) { .barra { padding: .8rem 1rem .3rem; } .marca { font-size: 1.6rem; } .usuario { display: none; } .navegacion { justify-content: center; gap: 1.4rem; } .navegacion a { font-size: .8rem; } .sesion { gap: .4rem; } .compacto { padding: .5rem .65rem; font-size: .76rem; } }
+
+.hero { display: grid; grid-template-columns: 1.1fr 1fr; min-height: 390px; overflow: hidden; border-radius: 24px; background: #f3ede2; }
+.hero-texto { align-self: center; padding: 2.8rem 2.6rem; }
+.insignia { display: inline-flex; gap: .5rem; align-items: center; color: var(--marca-oscuro); font-size: .65rem; font-weight: 800; letter-spacing: .13em; }
+.insignia > span { font-size: .45rem; }
+.hero h1 { margin: 1.1rem 0 1rem; font-size: clamp(2.2rem, 3.8vw, 3.55rem); font-weight: 800; line-height: 1.08; letter-spacing: -.055em; }
+.hero h1 em { color: var(--marca); font-style: normal; }
+.ayuda { max-width: 380px; margin: 0 0 1.4rem; color: var(--tinta-suave); font-size: .9rem; }
+.explorar { gap: 1.2rem; }
+.nota-hero { margin: .8rem 0 0; font-size: .7rem; color: var(--tinta-suave); }
+.hero-visual { position: relative; min-height: 390px; margin: 14px 14px 14px 0; border-radius: 17px; overflow: hidden; background: #dfc39e; }
+.hero-visual > img { position: absolute; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; }
+.sello { position: absolute; left: 1.1rem; bottom: 1.1rem; display: grid; gap: .45rem; padding: 1.1rem 1.35rem; border-radius: 13px; background: #fff8e9; color: #443125; box-shadow: 0 4px 18px #291f1720; }
+.sello > span { font-size: .56rem; font-weight: 750; letter-spacing: .08em; }
+.sello > strong { font-size: 1.25rem; line-height: 1.1; letter-spacing: -.035em; }
+.pasos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; padding: 1.65rem .5rem 2rem; border-bottom: 1px solid var(--linea); }
+.pasos > div { display: flex; align-items: center; gap: .8rem; }
+.numero { display: grid; place-items: center; width: 39px; height: 39px; border: 1px solid var(--linea); border-radius: 50%; flex-shrink: 0; font-size: .75rem; color: var(--marca); font-weight: 750; }
+.pasos p { display: grid; gap: .1rem; margin: 0; }
+.pasos strong { font-size: .83rem; }
+.pasos p > span { font-size: .72rem; color: var(--tinta-suave); }
+.titulo-catalogo { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; padding-top: 2.3rem; margin-bottom: 1.35rem; scroll-margin-top: 150px; }
+.sobre-titulo { font-size: .62rem; letter-spacing: .14em; font-weight: 750; color: var(--marca); }
+.titulo-catalogo h2 { margin: .45rem 0 0; font-size: clamp(1.5rem, 2.5vw, 2rem); }
+.titulo-catalogo > p { font-size: .8rem; color: var(--tinta-suave); margin: 0 0 .15rem; }
+.filtros { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1.25rem; }
+.chip { min-height: 44px; padding: .55rem 1rem; border: 1px solid var(--linea); border-radius: 11px; background: var(--superficie); color: var(--tinta-suave); font-size: .8rem; font-weight: 650; transition: background .15s, border-color .15s; }
+.chip:hover { border-color: var(--marca); color: var(--marca-oscuro); }
+.chip.activo { background: var(--tinta); border-color: var(--tinta); color: #fff; }
+.resumen { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; color: var(--tinta-suave); font-size: .78rem; }
+.resumen strong { color: var(--tinta); }
+.nota-fotos { font-size: .7rem; }
+.rejilla { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; align-items: stretch; }
+.rejilla > * { min-width: 0; }
+.vacio { padding: 3rem 1.5rem; border: 1px dashed var(--linea); border-radius: 18px; background: var(--superficie); text-align: center; }
+.vacio-icono { font-size: 2.5rem; color: var(--marca); }
+.vacio h2 { font-size: 1.2rem; }
+.aviso-exito, .aviso-error { margin-bottom: 1rem; }
+.esqueleto { padding: 12px; background: var(--superficie); border: 1px solid var(--linea); border-radius: 18px; }
+.esqueleto div { height: 175px; background: #eae4da; border-radius: 11px; }
+.esqueleto span { display: block; height: 15px; background: #eee9e1; margin: 16px 0; width: 75%; border-radius: 4px; }
+.esqueleto span:last-child { width: 40%; }
+@media (max-width: 1000px) { .rejilla { grid-template-columns: repeat(3, minmax(0, 1fr)); } .hero-texto { padding: 2rem; } }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr; } .hero-texto { padding: 1.8rem; } .hero h1 { font-size: 2.55rem; } .hero-visual { min-height: 235px; margin: 0 12px 12px; } .hero-visual > img { object-position: center 58%; } .sello { left: auto; right: 1rem; } .pasos { gap: .6rem; padding: 1.3rem 0; } .pasos > div { flex-direction: column; align-items: flex-start; gap: .5rem; } .pasos p > span { font-size: .66rem; } .pasos strong { font-size: .75rem; } .titulo-catalogo > p { display: none; } .rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; } }
+@media (max-width: 480px) { .rejilla { grid-template-columns: 1fr; } .hero-texto { padding: 1.6rem 1.3rem; } .hero h1 { font-size: 2.3rem; } .filtros { gap: .45rem; } .chip { font-size: .74rem; padding: .5rem .75rem; } }
+
+:host { display: block; height: 100%; }
+.tarjeta { display: flex; flex-direction: column; height: 100%; padding: 8px; border: 1px solid var(--linea); border-radius: 18px; background: var(--superficie); transition: box-shadow .18s, transform .18s; }
+.tarjeta:hover, .tarjeta:focus-within { box-shadow: 0 10px 28px #3023170d; transform: translateY(-3px); }
+.media { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: #f3ede2; }
+.media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sin-imagen { display: grid; place-items: center; height: 100%; color: var(--marca); font-weight: 850; font-size: 3rem; }
+.descuento { position: absolute; top: .65rem; left: .65rem; padding: .24rem .6rem; border-radius: 7px; background: #fff8eb; color: #80300f; font-size: .78rem; font-weight: 800; box-shadow: 0 2px 5px #0000000d; }
+.agotado { position: absolute; bottom: .65rem; right: .65rem; padding: .2rem .6rem; border-radius: 6px; background: #29251f; color: #fff; font-size: .7rem; }
+.cuerpo { display: flex; flex-direction: column; align-items: flex-start; flex: 1; gap: .4rem; padding: 1rem .55rem .55rem; }
+.etiqueta-estado { font-size: .6rem; padding: .17rem .45rem; text-transform: uppercase; letter-spacing: .045em; }
+.nombre { margin: .15rem 0 0; font-size: 1rem; letter-spacing: -.025em; line-height: 1.35; }
+.nombre a { color: inherit; text-decoration: none; }
+.nombre a:hover { color: var(--marca); text-decoration: underline; }
+.negocio { margin: 0; font-size: .71rem; color: var(--tinta-suave); font-weight: 600; }
+.descripcion { margin: .1rem 0 .35rem; font-size: .75rem; line-height: 1.5; color: var(--tinta-suave); }
+.precios { display: flex; flex-wrap: wrap; align-items: baseline; gap: .55rem; margin-top: auto; padding-top: .6rem; }
+.precio { font-weight: 850; font-size: 1.25rem; letter-spacing: -.035em; }
+.precio-tachado { font-size: .76rem; color: var(--tinta-suave); }
+.ahorro { color: var(--exito); background: var(--exito-suave); padding: .12rem .45rem; border-radius: 5px; font-size: .65rem; font-weight: 650; margin: 0; }
+.stock { margin: .15rem 0; font-size: .69rem; color: var(--tinta-suave); }
+.acciones { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; margin-top: .5rem; width: 100%; }
+.acciones a, .acciones button { min-width: 0; min-height: 44px; padding: .5rem .3rem; font-size: .72rem; border-radius: 9px; }
+@media (max-width: 480px) { .media { aspect-ratio: 16 / 10; } .cuerpo { padding: 1rem .7rem .7rem; } .nombre { font-size: 1.1rem; } .descripcion { font-size: .85rem; } .acciones a, .acciones button { font-size: .85rem; } }
+
+.paginador{display:flex;align-items:center;justify-content:center;gap:1rem;margin:2rem 0}.paginador button,dialog button{border:1px solid var(--linea);border-radius:10px;padding:.7rem 1rem;background:var(--superficie);min-height:44px;color:var(--tinta)}dialog{width:min(550px,calc(100vw - 32px));padding:1.5rem;border:1px solid var(--linea);border-radius:22px;background:var(--superficie);color:var(--tinta)}dialog::backdrop{background:#29251f80}dialog img{width:100%;max-height:240px;object-fit:cover;border-radius:12px}dialog h2{font-size:1.7rem}dialog .cerrar{float:right;margin-bottom:.8rem}.demo{font-size:.75rem;color:var(--tinta-suave)}#notificacion{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:.8rem 1.2rem;background:var(--tinta);color:white;border-radius:12px;z-index:60;max-width:90vw}.rejilla > article{min-width:0}.pie{padding-left:1rem;padding-right:1rem}
+.navegacion{flex-wrap:wrap}</style></head><body><a href="#ofertas" class="saltar-contenido">Saltar al catálogo</a><header class="encabezado"><div class="barra"><a class="marca" href="#">YAPAA<span>.</span></a><nav class="navegacion" aria-label="Navegación"><a class="activo" href="#ofertas">Catálogo</a><a href="/negocios">Negocios locales</a><a href="/afiliate">¿Eres negocio? Afíliate</a></nav><div class="sesion"><a class="carrito" href="#" data-cart>Carrito <span id="cantidad" class="contador">0</span></a><a class="boton principal compacto" href="#" data-login>Ingresar ↗</a></div></div></header><main><section class="hero"><div class="hero-texto"><span class="insignia">● EL SABOR DE TU COMUNIDAD</span><h1>Tu próximo antojo,<br><em>a un mejor precio.</em></h1><p class="ayuda">Descubre lo que preparan los negocios locales. Elige tus favoritos y encuentra una buena razón para darte un gusto.</p><a class="boton principal explorar" href="#ofertas">Explorar el catálogo ↗</a><p class="nota-hero">Explora sin registrarte. Ingresa cuando quieras pedir.</p></div><div class="hero-visual"><img src="/imagenes/productos/hamburguesa.jpg" alt="Fotografía gastronómica ilustrativa"><div class="sello"><span>PARA TUS ANTOJOS</span><strong>Mucho sabor.<br>Menos gasto.</strong><span>Descubre las ofertas ↓</span></div></div></section><div class="pasos"><div><span class="numero">01</span><p><strong>Descubre</strong><span>Explora productos y negocios.</span></p></div><div><span class="numero">02</span><p><strong>Elige tu favorito</strong><span>Revisa el precio y los detalles.</span></p></div><div><span class="numero">03</span><p><strong>Haz tu pedido</strong><span>Ingresa y continúa la compra.</span></p></div></div><div id="ofertas" class="titulo-catalogo"><div><span class="sobre-titulo">ENCUENTRA TU FAVORITO</span><h2>Un gusto para cada antojo</h2></div><p>De la cocina local a tu mesa.</p></div><div class="filtros" aria-label="Categorías"><button class="chip activo" data-filter="Todas" aria-pressed="true">Todas</button><button class="chip" data-filter="Hamburguesas" aria-pressed="false">Hamburguesas</button><button class="chip" data-filter="Comida rápida" aria-pressed="false">Comida rápida</button><button class="chip" data-filter="Sándwiches" aria-pressed="false">Sándwiches</button><button class="chip" data-filter="Panadería" aria-pressed="false">Panadería</button></div><div class="resumen"><span id="conteo" role="status">8 productos de demostración</span><span>Fotografías ilustrativas</span></div><div id="productos" class="rejilla"><article class="tarjeta" data-category="Hamburguesas"><a href="#" class="media" data-detail="1"><img src="/imagenes/productos/hamburguesa.jpg" alt="Hamburguesa Clásica" width="960" height="720"><span class="descuento">−34%</span></a><div class="cuerpo"><span class="etiqueta-estado">Hamburguesas</span><h3 class="nombre"><a href="#" data-detail="1">Hamburguesa Clásica</a></h3><p class="negocio">La Burger Trujillana</p><p class="descripcion">Carne, lechuga, tomate y salsas.</p><div class="precios"><span class="precio">S/ 9.90</span><s class="precio-tachado">S/ 15.00</s></div><p class="ahorro">Ahorras S/ 5.10</p><p class="stock">8 unidades en stock</p><div class="acciones"><button class="boton secundario" data-detail="1" aria-label="Ver detalle de Hamburguesa Clásica">Ver detalle</button><button class="principal" data-add="1" aria-label="Agregar Hamburguesa Clásica">+ Agregar</button></div></div></article><article class="tarjeta" data-category="Comida rápida"><a href="#" class="media" data-detail="6"><img src="/imagenes/productos/papas.jpg" alt="Salchipapa Clásica" width="960" height="720"><span class="descuento">−36%</span></a><div class="cuerpo"><span class="etiqueta-estado">Comida rápida</span><h3 class="nombre"><a href="#" data-detail="6">Salchipapa Clásica</a></h3><p class="negocio">La Burger Trujillana</p><p class="descripcion">Papas fritas, salchicha y salsas.</p><div class="precios"><span class="precio">S/ 8.90</span><s class="precio-tachado">S/ 14.00</s></div><p class="ahorro">Ahorras S/ 5.10</p><p class="stock">7 unidades en stock</p><div class="acciones"><button class="boton secundario" data-detail="6" aria-label="Ver detalle de Salchipapa Clásica">Ver detalle</button><button class="principal" data-add="6" aria-label="Agregar Salchipapa Clásica">+ Agregar</button></div></div></article><article class="tarjeta" data-category="Sándwiches"><a href="#" class="media" data-detail="11"><img src="/imagenes/productos/sandwich.jpg" alt="Sándwich de Pollo" width="960" height="720"><span class="descuento">−34%</span></a><div class="cuerpo"><span class="etiqueta-estado">Sándwiches</span><h3 class="nombre"><a href="#" data-detail="11">Sándwich de Pollo</a></h3><p class="negocio">La Burger Trujillana</p><p class="descripcion">Pan con pollo y verduras.</p><div class="precios"><span class="precio">S/ 7.90</span><s class="precio-tachado">S/ 12.00</s></div><p class="ahorro">Ahorras S/ 4.10</p><p class="stock">6 unidades en stock</p><div class="acciones"><button class="boton secundario" data-detail="11" aria-label="Ver detalle de Sándwich de Pollo">Ver detalle</button><button class="principal" data-add="11" aria-label="Agregar Sándwich de Pollo">+ Agregar</button></div></div></article><article class="tarjeta" data-category="Panadería"><a href="#" class="media" data-detail="13"><img src="/imagenes/productos/empanada.jpg" alt="Empanada de Pollo" width="960" height="720"><span class="descuento">−35%</span></a><div class="cuerpo"><span class="etiqueta-estado">Panadería</span><h3 class="nombre"><a href="#" data-detail="13">Empanada de Pollo</a></h3><p class="negocio">Pan Calientito</p><p class="descripcion">Empanada horneada rellena de pollo.</p><div class="precios"><span class="precio">S/ 3.90</span><s class="precio-tachado">S/ 6.00</s></div><p class="ahorro">Ahorras S/ 2.10</p><p class="stock">12 unidades en stock</p><div class="acciones"><button class="boton secundario" data-detail="13" aria-label="Ver detalle de Empanada de Pollo">Ver detalle</button><button class="principal" data-add="13" aria-label="Agregar Empanada de Pollo">+ Agregar</button></div></div></article></div><nav class="paginador" aria-label="Paginación"><button id="anterior">← Anterior</button><span id="pagina">Página 1 de 2</span><button id="siguiente">Siguiente →</button></nav></main><footer class="pie"><a class="pie-marca" href="#">YAPAA.</a><p>Prototipo A · Mercado cálido · Datos ilustrativos.</p><a href="prototipo-b.html">Ver propuesta B →</a></footer><dialog id="detalle" aria-label="Detalle del producto"><form method="dialog"><button class="cerrar" aria-label="Cerrar detalle">Cerrar ×</button></form><div id="detalleContenido"></div></dialog><dialog id="carrito" aria-labelledby="tituloCarrito"><form method="dialog"><button class="cerrar">Cerrar ×</button></form><h2 id="tituloCarrito">Tu carrito</h2><div id="carritoContenido"></div><p class="demo">Flujo de demostración. No se crean pedidos ni pagos.</p></dialog><dialog id="acceso" aria-labelledby="tituloAcceso"><form method="dialog"><button class="cerrar">Cerrar ×</button></form><h2 id="tituloAcceso">Tu próximo antojo te espera.</h2><p>En el sistema real, inicia sesión para completar tu pedido.</p><a class="boton principal" href="/login">Quiero comprar →</a><a class="boton secundario" href="/login?modo=negocio">Soy negocio →</a></dialog><div id="notificacion" role="status" hidden></div><script>const datos=[{"id":1,"nombre":"Hamburguesa Clásica","categoria":"Hamburguesas","negocio":"La Burger Trujillana","descripcion":"Carne, lechuga, tomate y salsas.","precio":9.9,"normal":15,"stock":8,"foto":"hamburguesa"},{"id":6,"nombre":"Salchipapa Clásica","categoria":"Comida rápida","negocio":"La Burger Trujillana","descripcion":"Papas fritas, salchicha y salsas.","precio":8.9,"normal":14,"stock":7,"foto":"papas"},{"id":11,"nombre":"Sándwich de Pollo","categoria":"Sándwiches","negocio":"La Burger Trujillana","descripcion":"Pan con pollo y verduras.","precio":7.9,"normal":12,"stock":6,"foto":"sandwich"},{"id":13,"nombre":"Empanada de Pollo","categoria":"Panadería","negocio":"Pan Calientito","descripcion":"Empanada horneada rellena de pollo.","precio":3.9,"normal":6,"stock":12,"foto":"empanada"},{"id":8,"nombre":"Alitas BBQ","categoria":"Comida rápida","negocio":"La Burger Trujillana","descripcion":"Seis alitas con salsa barbacoa.","precio":14.9,"normal":22,"stock":4,"foto":"alitas"},{"id":15,"nombre":"Croissant Clásico","categoria":"Panadería","negocio":"Pan Calientito","descripcion":"Croissant de masa hojaldrada.","precio":4.5,"normal":7,"stock":8,"foto":"croissant"},{"id":21,"nombre":"Torta de Chocolate","categoria":"Panadería","negocio":"Cafetería La Esquina","descripcion":"Porción individual de torta de chocolate.","precio":7.9,"normal":12,"stock":6,"foto":"torta"},{"id":22,"nombre":"Cheesecake Individual","categoria":"Panadería","negocio":"Cafetería La Esquina","descripcion":"Una porción para darte un gusto.","precio":8.5,"normal":13,"stock":5,"foto":"cheesecake"}];let filtro='Todas',pagina=0;const carrito=[];const dinero=n=>'S/ '+n.toFixed(2);const crearTarjeta=(p)=>`<article class="tarjeta" data-category="${p.categoria}"><a href="#" class="media" data-detail="${p.id}"><img src="/imagenes/productos/${p.foto}.jpg" alt="${p.nombre}" width="960" height="720"><span class="descuento">−${Math.round(100*(1-p.precio/p.normal))}%</span></a><div class="cuerpo"><span class="etiqueta-estado">${p.categoria}</span><h3 class="nombre"><a href="#" data-detail="${p.id}">${p.nombre}</a></h3><p class="negocio">${p.negocio}</p><p class="descripcion">${p.descripcion}</p><div class="precios"><span class="precio">S/ ${p.precio.toFixed(2)}</span><s class="precio-tachado">S/ ${p.normal.toFixed(2)}</s></div><p class="ahorro">Ahorras S/ ${(p.normal-p.precio).toFixed(2)}</p><p class="stock">${p.stock} unidades en stock</p><div class="acciones"><button class="boton secundario" data-detail="${p.id}" aria-label="Ver detalle de ${p.nombre}">Ver detalle</button><button class="principal" data-add="${p.id}" aria-label="Agregar ${p.nombre}">+ Agregar</button></div></div></article>`;function pintar(){const lista=datos.filter(p=>filtro==='Todas'||p.categoria===filtro);document.querySelector('#productos').innerHTML=lista.slice(pagina*4,pagina*4+4).map(crearTarjeta).join('');document.querySelector('#conteo').textContent=lista.length+' productos de demostración';document.querySelector('#pagina').textContent='Página '+(pagina+1)+' de '+Math.max(1,Math.ceil(lista.length/4));document.querySelector('#anterior').disabled=pagina===0;document.querySelector('#siguiente').disabled=(pagina+1)*4>=lista.length;document.querySelectorAll('[data-filter]').forEach(b=>{b.classList.toggle('activo',b.dataset.filter===filtro);b.setAttribute('aria-pressed',String(b.dataset.filter===filtro));});}document.addEventListener('click',e=>{const f=e.target.closest('[data-filter]');if(f){filtro=f.dataset.filter;pagina=0;pintar();}const d=e.target.closest('[data-detail]');if(d){e.preventDefault();const p=datos.find(p=>p.id===Number(d.dataset.detail));document.querySelector('#detalleContenido').innerHTML='<img src="/imagenes/productos/'+p.foto+'.jpg" alt="'+p.nombre+'"><h2>'+p.nombre+'</h2><p>'+p.descripcion+'</p><p>'+p.negocio+'</p><strong>'+dinero(p.precio)+'</strong><p>Fotografía ilustrativa.</p><button class="principal" data-add="'+p.id+'">Agregar al carrito</button>';document.querySelector('#detalle').showModal();}const a=e.target.closest('[data-add]');if(a){carrito.push(datos.find(p=>p.id===Number(a.dataset.add)));document.querySelector('#cantidad').textContent=carrito.length;const n=document.querySelector('#notificacion');n.textContent='Agregado al carrito de demostración';n.hidden=false;setTimeout(()=>n.hidden=true,2200);}if(e.target.closest('[data-cart]')){e.preventDefault();document.querySelector('#carritoContenido').innerHTML=carrito.length?carrito.map(p=>'<p>'+p.nombre+' · '+dinero(p.precio)+'</p>').join('')+'<hr><strong>Total: '+dinero(carrito.reduce((s,p)=>s+p.precio,0))+'</strong>':'Tu carrito está vacío. Elige tu primer antojo.';document.querySelector('#carrito').showModal();}if(e.target.closest('[data-login]')){e.preventDefault();document.querySelector('#acceso').showModal();}});document.querySelector('#anterior').onclick=()=>{pagina--;pintar()};document.querySelector('#siguiente').onclick=()=>{pagina++;pintar()};pintar();</script></body></html>

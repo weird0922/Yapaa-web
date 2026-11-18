@@ -1,0 +1,148 @@
+.volver {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--tinta-suave);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.volver:hover {
+  color: var(--marca);
+}
+
+.ficha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.ficha h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.5rem;
+}
+
+.estados {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.dato {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+}
+
+.resumen {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.resumen p {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.25rem 0;
+}
+
+.resumen .total {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--linea);
+  font-size: 1.1rem;
+}
+
+.subtitulo {
+  margin: 1.5rem 0 0.85rem;
+  font-size: 1.2rem;
+}
+
+.negocios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.negocio {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.negocio-cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.negocio-cabecera h3 {
+  margin: 0;
+}
+
+.detalles {
+  margin: 0.35rem 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.detalles li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--tinta-suave);
+}
+
+.grupo-total {
+  margin: 0.25rem 0 0.5rem;
+  font-weight: 700;
+}
+
+.negocio .boton {
+  margin-top: auto;
+}
+
+.pagos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pago {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+}
+
+.pago .referencia {
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+}
+
+.aviso-error {
+  margin-bottom: 1rem;
+}
