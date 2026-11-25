@@ -251,3 +251,5 @@
 .totales .total { font-size: 1.5rem; }
 .quitar { min-height: 44px; }
 @media(max-width:480px) { .grupo, .totales, .resumen, .pago { padding: 1rem; } .entrega, .pago, .negocios { grid-template-columns: minmax(0, 1fr); } .resumen p { flex-wrap: wrap; } }
+
+.direcciones-carrito{margin:1.5rem 0;padding:1.3rem;border:1px solid var(--linea);border-radius:20px;background:var(--superficie)}.cotizacion-entrega{padding:1rem;border-radius:14px;background:#f4f1ea}.costo-calculado{display:flex;gap:1rem;justify-content:space-between;align-items:center}.cotizacion-entrega p{font-size:.85rem;margin:.7rem 0 0;overflow-wrap:anywhere}.costo-calculado strong{color:var(--marca-oscuro)}

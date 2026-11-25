@@ -40,3 +40,5 @@ button:disabled { opacity: .6; cursor: not-allowed; }
 .saltar-contenido { position: fixed; top: 8px; left: 12px; z-index: 100; padding: .7rem 1rem; background: var(--tinta); color: white; border-radius: 8px; transform: translateY(-160%); }
 .saltar-contenido:focus { transform: none; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+button,a,input,select,textarea{touch-action:manipulation}button:focus-visible,a:focus-visible{outline-offset:3px}input,select,textarea{transition:border-color .15s,box-shadow .15s}input:hover,textarea:hover,select:hover{border-color:#8c7965}input:focus,select:focus,textarea:focus{border-color:var(--marca);box-shadow:0 0 0 3px #b9431610}.ayuda-clave{color:var(--tinta-suave);font-size:.8rem}.campo small.error{line-height:1.5}.nota{line-height:1.6}::selection{background:#f4d8bc}

@@ -18,8 +18,8 @@ export class GestionComercial implements OnInit {
   cargarVentas(page=0){this.cargando.set(true);this.api.ventas(this.idNegocio(),page).subscribe({next:r=>{this.ventas.set(r.datos.content);this.pagina.set(r.datos.number);this.paginas.set(r.datos.totalPages);this.total.set(r.datos.totalElements);this.cargando.set(false);},error:e=>{this.error.set(mensajeDeError(e));this.cargando.set(false);}});}
   ejecutar(){
     const a=this.confirmarAccion();if(!a||this.ocupado())return;this.ocupado.set(true);this.error.set('');this.aviso.set('');
-    if(a.tipo==='plan')this.api.cambiar(this.idNegocio(),a.nombre!).subscribe({next:r=>{this.plan.set(r.datos);this.finalizar('Plan actualizado. La tasa se aplica a las próximas ventas que confirmes.');this.cargarResumen();},error:e=>this.fallar(e)});
-    else {const solicitud=a.tipo==='venta'?this.api.confirmar(a.id!):this.api.cancelar(a.id!);solicitud.subscribe({next:()=>{this.finalizar(a.tipo==='venta'?'Venta realizada confirmada y comisión generada.':'Pedido cancelado y stock devuelto.');this.cargarVentas(this.pagina());this.cargarResumen();},error:e=>this.fallar(e)});}
+    if(a.tipo==='plan')this.api.cambiar(this.idNegocio(),a.nombre!).subscribe({next:r=>{this.plan.set(r.datos);this.finalizar('Plan actualizado.');this.cargarResumen();},error:e=>this.fallar(e)});
+    else {const solicitud=a.tipo==='venta'?this.api.confirmar(a.id!):this.api.cancelar(a.id!);solicitud.subscribe({next:()=>{this.finalizar(a.tipo==='venta'?'Pedido entregado.':'Pedido cancelado y stock devuelto.');this.cargarVentas(this.pagina());this.cargarResumen();},error:e=>this.fallar(e)});}
   }
   private finalizar(texto:string){this.ocupado.set(false);this.confirmarAccion.set(null);this.aviso.set(texto);}
   private fallar(e:HttpErrorResponse){this.ocupado.set(false);this.error.set(mensajeDeError(e));}

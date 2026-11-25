@@ -1,3 +1,4 @@
+import { PagoSimulado } from '../pago-simulado';
 import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
@@ -8,7 +9,7 @@ import { soles } from '../../dominio/producto';
 
 @Component({
   selector: 'app-detalle-pedido',
-  imports: [RouterLink],
+  imports: [PagoSimulado,RouterLink],
   templateUrl: './detalle-pedido.html',
   styleUrl: './detalle-pedido.css',
 })

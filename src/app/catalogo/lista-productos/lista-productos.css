@@ -15,8 +15,8 @@
 .pasos > div { display: flex; align-items: center; gap: .8rem; }
 .numero { display: grid; place-items: center; width: 39px; height: 39px; border: 1px solid var(--linea); border-radius: 50%; flex-shrink: 0; font-size: .75rem; color: var(--marca); font-weight: 750; }
 .pasos p { display: grid; gap: .1rem; margin: 0; }
-.pasos strong { font-size: .83rem; }
-.pasos p > span { font-size: .72rem; color: var(--tinta-suave); }
+.pasos strong { font-size: .92rem; }
+.pasos p > span { font-size: .8rem; color: var(--tinta-suave); }
 .titulo-catalogo { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; padding-top: 2.3rem; margin-bottom: 1.35rem; scroll-margin-top: 150px; }
 .sobre-titulo { font-size: .62rem; letter-spacing: .14em; font-weight: 750; color: var(--marca); }
 .titulo-catalogo h2 { margin: .45rem 0 0; font-size: clamp(1.5rem, 2.5vw, 2rem); }
@@ -27,7 +27,7 @@
 .chip.activo { background: var(--tinta); border-color: var(--tinta); color: #fff; }
 .resumen { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; color: var(--tinta-suave); font-size: .78rem; }
 
-.rejilla { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; align-items: stretch; }
+.rejilla { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; align-items: stretch; }
 .vacio { padding: 3rem 1.5rem; border: 1px dashed var(--linea); border-radius: 18px; background: var(--superficie); text-align: center; }
 .vacio h2 { font-size: 1.2rem; }
 .aviso-exito, .aviso-error { margin-bottom: 1rem; }

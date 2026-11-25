@@ -1,9 +1,9 @@
 <header class="encabezado"><div class="barra">
-  <a class="marca" [routerLink]="esNegocio()?'/mi-negocio':esAdmin()?'/administracion':'/catalogo'" aria-label="YAPAA, ir al inicio">YAPAA<span aria-hidden="true">.</span></a>
+  <a class="marca" [routerLink]="esNegocio()?'/mi-negocio':'/catalogo'" aria-label="YAPAA, ir al inicio">YAPAA<span aria-hidden="true">.</span></a>
   <nav class="navegacion" aria-label="Navegación principal">
     @if(esNegocio()) {<a routerLink="/mi-negocio" routerLinkActive="activo" ariaCurrentWhenActive="page">Mi negocio y productos</a>}
     @else {<a routerLink="/catalogo" routerLinkActive="activo" ariaCurrentWhenActive="page">Catálogo</a><a routerLink="/negocios" routerLinkActive="activo" ariaCurrentWhenActive="page">Negocios locales</a>
-      @if(esAdmin()){<a routerLink="/administracion" routerLinkActive="activo">Administración</a>}@else{<a routerLink="/afiliate" routerLinkActive="activo">¿Eres negocio? Afíliate</a>}
+      @if(!esAdmin()){<a routerLink="/afiliate" routerLinkActive="activo">¿Eres negocio? Afíliate</a>}
       @if(activa()&&!esAdmin()){<a routerLink="/pedidos" routerLinkActive="activo">Mis pedidos</a>}
     }
   </nav>

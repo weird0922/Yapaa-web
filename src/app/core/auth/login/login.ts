@@ -1,3 +1,4 @@
+import { CampoClave } from '../campo-clave';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -9,7 +10,7 @@ import { mensajeDeError } from '../../api/errores';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink,CampoClave],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -31,8 +32,8 @@ export class Login implements OnInit {
   error = signal('');
 
   formulario = this.fb.nonNullable.group({
-    correo: ['', Validators.required],
-    contrasena: ['', Validators.required],
+    correo: ['', [Validators.required,Validators.maxLength(254)]],
+    contrasena: ['', [Validators.required,Validators.maxLength(64)]],
   });
 
   retorno(): string {
@@ -41,19 +42,21 @@ export class Login implements OnInit {
   }
 
   ingresar(): void {
+    if (this.cargando()) return;
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
       return;
     }
     this.cargando.set(true);
     this.error.set('');
-    this.authApi.login(this.formulario.getRawValue()).subscribe({
+    this.authApi.login({...this.formulario.getRawValue(),correo:this.formulario.controls.correo.value.trim()}).subscribe({
       next: respuesta => {
         if (this.sesion.idCuenta() !== respuesta.datos.idCuenta) this.carrito.limpiar();
         this.sesion.iniciar(respuesta.datos);
+
         this.cargando.set(false);
         const destino = this.sesion.tieneRol('NEGOCIO') ? '/mi-negocio' : this.sesion.tieneRol('ADMIN') ? '/administracion' : this.retorno() || (this.modo() === 'negocio' ? '/afiliate' : '/catalogo');
-        this.router.navigateByUrl(destino);
+        this.router.navigateByUrl(destino,{state:{accesoAdministrador:this.sesion.tieneRol('ADMIN')}});
       },
       error: (e: HttpErrorResponse) => {
         this.error.set(mensajeDeError(e));
@@ -63,7 +66,7 @@ export class Login implements OnInit {
   }
 
   usarPrueba(usuario: string): void {
-    const claves: Record<string,string> = { cliente:'123', negocio:'1234', admin:'admin123' };
+    const claves: Record<string,string> = { cliente:'123', negocio:'1234' };
     this.modo.set(usuario === 'negocio' ? 'negocio' : 'cliente');
     this.formulario.setValue({correo:usuario,contrasena:claves[usuario]});
   }

@@ -1,10 +1,9 @@
-import { ComisionesAdmin } from './comisiones-admin';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { NegociosApi } from '../negocios/negocios-api';
 import { Negocio } from '../dominio/negocio';
 import { mensajeDeError } from '../core/api/errores';
 import { Paginador } from '../core/layout/paginador/paginador';
-@Component({selector:'app-administracion', imports:[Paginador,ComisionesAdmin], templateUrl:'./administracion.html', styleUrl:'./cuenta.css'})
+@Component({selector:'app-administracion', imports:[Paginador], templateUrl:'./administracion.html', styleUrl:'./cuenta.css'})
 export class Administracion implements OnInit {
   private api=inject(NegociosApi);
   negocios=signal<Negocio[]>([]); cargando=signal(false); procesando=signal<number|null>(null);

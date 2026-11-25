@@ -12,6 +12,7 @@
   }
 
   @if (pedido(); as item) {
+    @if(item.estadoPedido!=='COMPLETADO'&&item.estadoPedido!=='CANCELADO'){<app-pago-simulado [idPedido]="item.idPedido" [monto]="item.total" [pagado]="item.estadoPago==='CONFIRMADO'" (actualizado)="cargarPedido(item.idPedido)" />}
     <header class="ficha">
       <div>
         <h1>{{ item.codigoPedido }}</h1>
@@ -57,7 +58,7 @@
 
           <p class="grupo-total">Total negocio: {{ precio(grupo.total) }}</p>
 
-          @if (grupo.enlaceWhatsApp) {
+          @if (grupo.enlaceWhatsApp&&item.estadoPago==='CONFIRMADO'&&item.estadoPedido!=='CANCELADO') {
             <a class="boton principal" [href]="grupo.enlaceWhatsApp" target="_blank" rel="noopener">
               Reenviar por WhatsApp
             </a>
@@ -66,6 +67,6 @@
       }
     </div>
 
-    <p class="estado">La coordinación continúa por WhatsApp. YAPAA no registra pagos.</p>
+
   }
 </section>

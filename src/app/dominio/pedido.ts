@@ -47,6 +47,7 @@ export interface GrupoPedidoRequest {
   idNegocio: number;
   modalidadEntrega: string;
   direccionEntrega?: string;
+  cotizacionDelivery?: string;
   costoDelivery?: number;
   items: ItemPedidoRequest[];
 }

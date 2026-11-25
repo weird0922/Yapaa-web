@@ -21,3 +21,5 @@
 .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; margin-top: .5rem; width: 100%; }
 .acciones a, .acciones button { min-width: 0; min-height: 44px; padding: .5rem .3rem; font-size: .72rem; border-radius: 9px; }
 @media (max-width: 480px) { .media { aspect-ratio: 16 / 10; } .cuerpo { padding: 1rem .7rem .7rem; } .nombre { font-size: 1.1rem; } .descripcion { font-size: .85rem; } .acciones a, .acciones button { font-size: .85rem; } }
+
+.tarjeta{border-radius:22px;padding:10px}.media{border-radius:15px}.cuerpo{padding:1.2rem .7rem .7rem;gap:.5rem}.nombre{font-size:1.15rem}.descripcion{font-size:.88rem;line-height:1.65;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.negocio{font-size:.8rem}.precio{font-size:1.45rem}.stock{font-size:.8rem}.acciones a,.acciones button{font-size:.85rem;min-height:48px}.ahorro{font-size:.75rem}

@@ -3,7 +3,7 @@
     <div class="confirmacion">
       <h1>Pedido {{ pedido.codigoPedido }} registrado</h1>
       <p class="ayuda">
-        Tu solicitud quedó registrada. Continúa por WhatsApp para coordinar con cada negocio. YAPAA no registra pagos.
+        {{pedido.estadoPago==='CONFIRMADO'?'Pago aprobado.':pedido.estadoPedido==='CANCELADO'?'Pedido cancelado.':'Completa el pago para confirmar tu pedido.'}}
       </p>
 
       <div class="resumen">
@@ -14,7 +14,8 @@
 
       </div>
 
-      <h2 class="subtitulo">Continúa con cada negocio por WhatsApp</h2>
+      <app-pago-simulado [idPedido]="pedido.idPedido" [monto]="pedido.total" [pagado]="pedido.estadoPago==='CONFIRMADO'" (actualizado)="actualizarPago($event)" />
+      @if(pedido.estadoPago==='CONFIRMADO'){<h2 class="subtitulo">Coordinar la entrega</h2>
       <div class="negocios">
         @for (grupo of pedido.pedidosNegocio; track grupo.idPedidoNegocio) {
           <article class="negocio">
@@ -38,6 +39,7 @@
         }
       </div>
 
+      }
       <a class="enlace" [routerLink]="['/pedidos', pedido.idPedido]">Ver detalle del pedido</a>
     </div>
   } @else {
@@ -53,6 +55,7 @@
         </div>
       }
 
+      @if(hayDelivery()){<div class="direcciones-carrito"><app-mis-direcciones [seleccionar]="true" (cambio)="seleccionarDireccion($event)" /></div>}
       <div class="grupos">
         @for (grupo of grupos(); track grupo.idNegocio) {
           <article class="grupo">
@@ -101,27 +104,13 @@
                 </select>
               </label>
 
-              @if (opcionDe(grupo.idNegocio).modalidad === 'DELIVERY') {
-                <label class="campo">
-                  <span>Direccion de entrega</span>
-                  <input
-                    type="text"
-                    placeholder="Av. Ejemplo 123"
-                    [value]="opcionDe(grupo.idNegocio).direccion"
-                    (input)="cambiarDireccion(grupo.idNegocio, $event)"
-                  >
-                </label>
-
-                <label class="campo">
-                  <span>Costo de delivery (S/)</span>
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.5"
-                    [value]="opcionDe(grupo.idNegocio).costoDelivery"
-                    (input)="cambiarCosto(grupo.idNegocio, $event)"
-                  >
-                </label>
+              @if(opcionDe(grupo.idNegocio).modalidad==='DELIVERY'){
+                <div class="cotizacion-entrega">
+                  @if(cotizando()[grupo.idNegocio]){<p role="status">Calculando delivery…</p>}
+                  @else if(opcionDe(grupo.idNegocio).cotizacion;as c){<div class="costo-calculado"><span>Delivery · {{c.kilometros.toFixed(1)}} km</span><strong>{{precio(c.importe)}}</strong></div><p>{{c.direccion}}</p>}
+                  @else if(!direccion()){<p>Agrega o selecciona tu dirección de entrega.</p>}
+                  @if(erroresEntrega()[grupo.idNegocio]){<p class="aviso-error" role="alert">{{erroresEntrega()[grupo.idNegocio]}}</p><button class="boton secundario" type="button" (click)="cotizar(grupo.idNegocio)">Reintentar delivery</button>}
+                </div>
               }
             </div>
           </article>
@@ -130,10 +119,10 @@
 
       <aside class="totales">
         <p><span>Subtotal</span><strong>{{ precio(subtotal()) }}</strong></p>
-        <p><span>Delivery</span><strong>{{ precio(costoDeliveryTotal()) }}</strong></p>
+        <p><span>Delivery</span><strong>{{sinCotizar()?'Por calcular':precio(costoDeliveryTotal())}}</strong></p>
         <p class="total"><span>Total</span><strong>{{ precio(total()) }}</strong></p>
-        <button type="button" class="principal" [disabled]="generando()" (click)="generarPedido()">
-          {{ generando() ? 'Generando pedido...' : 'Registrar pedido y continuar por WhatsApp' }}
+        <button type="button" class="principal" [disabled]="generando()||sinCotizar()" (click)="generarPedido()">
+          {{ generando() ? 'Generando pedido...' : 'Continuar al pago' }}
         </button>
       </aside>
     }

@@ -1,3 +1,4 @@
+import { UbicacionNegocio } from '../direcciones/ubicacion-negocio';
 import { GestionComercial } from './gestion-comercial';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -12,7 +13,7 @@ import { Paginador } from '../core/layout/paginador/paginador';
 import { CuentaRegresiva } from '../catalogo/cuenta-regresiva';
 import { mensajeDeError } from '../core/api/errores';
 import { noVacio } from '../core/formularios/validadores';
-@Component({selector:'app-panel-negocio',imports:[ReactiveFormsModule,Paginador,CuentaRegresiva,GestionComercial],templateUrl:'./panel-negocio.html',styleUrl:'./cuenta.css'})
+@Component({selector:'app-panel-negocio',imports:[UbicacionNegocio,ReactiveFormsModule,Paginador,CuentaRegresiva,GestionComercial],templateUrl:'./panel-negocio.html',styleUrl:'./cuenta.css'})
 export class PanelNegocio implements OnInit {
   readonly sesion=inject(Sesion);private negociosApi=inject(NegociosApi);private productosApi=inject(ProductosApi);private categoriasApi=inject(CategoriasApi);private fb=inject(FormBuilder);
   negocios=signal<Negocio[]>([]);productos=signal<Producto[]>([]);categorias=signal<Categoria[]>([]);

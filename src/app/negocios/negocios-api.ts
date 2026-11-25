@@ -11,7 +11,7 @@ export interface PeticionAfiliacion {
   ruc: string; direccion: string; distrito: string; ciudad: string; telefonoContacto: string;
 }
 
-export interface RegistroNegocio extends PeticionAfiliacion { correo:string; contrasena:string; }
+export interface RegistroNegocio extends PeticionAfiliacion { correo:string; contrasena:string; confirmarContrasena:string;tokenVerificacion:string; }
 export interface ConsultaRuc { ruc:string; razonSocial:string; estado:string; condicion:string; verificado:boolean; demostracion:boolean; }
 @Service()
 export class NegociosApi {

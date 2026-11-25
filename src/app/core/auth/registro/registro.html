@@ -1,30 +1,30 @@
 <section class="acceso">
   <h1 class="titulo">Crea tu cuenta YAPAA</h1>
-  <p class="ayuda">Crea tu cuenta para comprar. También podrás afiliar un negocio desde tu perfil.</p>
+  <p class="ayuda">{{correoVerificado()?'Correo verificado. Completa tus datos para crear la cuenta.':'Primero verifica tu correo. Después podrás completar tus datos.'}}</p>
 
-  <form class="formulario" [formGroup]="formulario" (ngSubmit)="registrar()">
+  <form novalidate class="formulario" [formGroup]="formulario" (ngSubmit)="registrar()">
     <label class="campo">
       <span>Correo</span>
-      <input type="email" formControlName="correo" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+      <input maxlength="254" (blur)="formulario.controls.correo.setValue(formulario.controls.correo.value.trim())" [readonly]="correoVerificado()" type="email" formControlName="correo" placeholder="tucorreo@ejemplo.com" autocomplete="email">
       @if (mostrarError('correo')) {
         <small class="error">Ingresa un correo valido.</small>
       }
     </label>
 
-    <label class="campo">
-      <span>Contrasena</span>
-      <input type="password" formControlName="contrasena" placeholder="Minimo 6 caracteres" autocomplete="new-password">
-      @if (mostrarError('contrasena')) {
-        <small class="error">La contrasena debe tener al menos 6 caracteres.</small>
-      }
-    </label>
-
+    <app-verificar-correo [correo]="formulario.controls.correo.value" (confirmado)="verificarCorreo($event)" />
+    @if(correoVerificado()){
+    <div class="datos-registro" role="group" aria-label="Datos de la cuenta">
+    <h2 class="subtitulo-registro">Completa tu cuenta</h2>
+    <app-campo-clave [control]="formulario.controls.contrasena" />
+    <small class="ayuda-clave">Usa de 10 a 64 caracteres. Puedes combinar palabras, números y símbolos.</small>
+    <app-campo-clave [control]="formulario.controls.confirmarContrasena" etiqueta="Confirmar contraseña" />
+    @if(formulario.hasError('clavesDistintas')&&formulario.controls.confirmarContrasena.touched){<small class="error" role="alert">Las contraseñas no coinciden.</small>}
     <div class="dos-columnas">
       <label class="campo">
         <span>Nombres</span>
         <input type="text" formControlName="nombres" placeholder="Tus nombres">
         @if (mostrarError('nombres')) {
-          <small class="error">El nombre es obligatorio.</small>
+          <small class="error">Ingresa tus nombres con letras, espacios, apóstrofes o guiones.</small>
         }
       </label>
 
@@ -32,32 +32,30 @@
         <span>Apellidos</span>
         <input type="text" formControlName="apellidos" placeholder="Tus apellidos">
         @if (mostrarError('apellidos')) {
-          <small class="error">El apellido es obligatorio.</small>
+          <small class="error">Ingresa tus apellidos con letras, espacios, apóstrofes o guiones.</small>
         }
       </label>
     </div>
 
     <label class="campo">
-      <span>Telefono</span>
+      <span>Teléfono</span>
       <input type="tel" formControlName="telefono" placeholder="9 digitos (ej. 999999999)" autocomplete="tel">
       @if (mostrarError('telefono')) {
-        <small class="error">Ingresa un telefono de 9 digitos.</small>
+        <small class="error">Ingresa 9 dígitos que empiecen con 9.</small>
       }
     </label>
 
+    <div class="acciones"><button type="submit" class="principal" [disabled]="cargando()">{{cargando()?'Creando cuenta…':'Crear cuenta'}}</button></div>
+    </div>}
     @if (error()) {
-      <div class="aviso-error">
+      <div class="aviso-error" role="alert">
         <p>{{ error() }}</p>
       </div>
     }
 
-    <div class="acciones">
-      <button type="submit" class="principal" [disabled]="cargando()">
-        {{ cargando() ? 'Registrando...' : 'Crear cuenta' }}
-      </button>
-    </div>
+
   </form>
 
-  <p class="registro">Ya tienes cuenta? <a routerLink="/login" [queryParams]="{retorno:ruta.snapshot.queryParamMap.get('retorno'),modo:ruta.snapshot.queryParamMap.get('modo')}">Inicia sesion</a></p>
+  <p class="registro">¿Ya tienes cuenta? <a routerLink="/login" [queryParams]="{retorno:ruta.snapshot.queryParamMap.get('retorno'),modo:ruta.snapshot.queryParamMap.get('modo')}">Inicia sesión</a></p>
   <p class="registro">¿Eres negocio? <a routerLink="/afiliate">Conoce cómo afiliarte</a></p>
 </section>

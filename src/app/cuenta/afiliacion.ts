@@ -1,3 +1,6 @@
+import { CampoClave } from '../core/auth/campo-clave';
+import { VerificarCorreo } from '../core/auth/verificar-correo';
+import { clavesIguales,claveSegura,mensajeClave } from '../core/formularios/registro-validadores';
 import { Component, OnInit, DestroyRef, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -8,18 +11,21 @@ import { AuthApi } from '../core/auth/auth-api';
 import { NegociosApi, ConsultaRuc } from '../negocios/negocios-api';
 import { mensajeDeError } from '../core/api/errores';
 import { noVacio } from '../core/formularios/validadores';
-@Component({selector:'app-afiliacion',imports:[ReactiveFormsModule,RouterLink],templateUrl:'./afiliacion.html',styleUrl:'./cuenta.css'})
+@Component({selector:'app-afiliacion',imports:[ReactiveFormsModule,RouterLink,CampoClave,VerificarCorreo],templateUrl:'./afiliacion.html',styleUrl:'./cuenta.css'})
 export class Afiliacion implements OnInit {
   readonly sesion=inject(Sesion);private fb=inject(FormBuilder);private api=inject(NegociosApi);private auth=inject(AuthApi);private destruir=inject(DestroyRef);
+  correoVerificado=signal(false);
   enviando=signal(false);consultando=signal(false);error=signal('');errorRuc=signal('');creada=signal(false);rucDatos=signal<ConsultaRuc|null>(null);demo=signal(false);
   formulario=this.fb.nonNullable.group({
-    correo:['',[Validators.required,Validators.email]],contrasena:['',[Validators.required,Validators.minLength(6),Validators.maxLength(100)]],
+    correo:['',[Validators.required,Validators.email]],contrasena:['',[Validators.required,claveSegura]],
+    confirmarContrasena:['',Validators.required],tokenVerificacion:['',Validators.required],
     nombreComercial:['',[noVacio,Validators.maxLength(150)]],razonSocial:['',Validators.required],
     tipoContribuyente:['PERSONA_JURIDICA',Validators.required],ruc:['',[Validators.required,Validators.pattern(/^(10|20)[0-9]{9}$/)]],
     direccion:['',[noVacio,Validators.maxLength(250)]],distrito:['',[noVacio,Validators.maxLength(100)]],ciudad:['',[noVacio,Validators.maxLength(100)]],
-    telefonoContacto:['',[Validators.required,Validators.pattern(/^[0-9+() -]{7,20}$/)]],
-  });
+    telefonoContacto:['',[Validators.required,Validators.pattern(/^9[0-9]{8}$/)]],
+  },{validators:clavesIguales});
   ngOnInit():void {
+    this.formulario.valueChanges.pipe(takeUntilDestroyed(this.destruir)).subscribe(()=>this.error.set(''));
     this.auth.demostracion().subscribe({next:r=>this.demo.set(r.datos),error:()=>{}});
     this.formulario.controls.ruc.valueChanges.pipe(
       distinctUntilChanged(),
@@ -34,10 +40,16 @@ export class Afiliacion implements OnInit {
       if(r){this.rucDatos.set(r.datos);this.formulario.patchValue({razonSocial:r.datos.razonSocial,tipoContribuyente:r.datos.ruc.startsWith('20')?'PERSONA_JURIDICA':'PERSONA_NATURAL'});}
     });
   }
+  verificarCorreo(token:string):void{this.formulario.controls.tokenVerificacion.setValue(token);this.correoVerificado.set(Boolean(token));if(!token){this.formulario.controls.contrasena.reset('');this.formulario.controls.confirmarContrasena.reset('');}this.error.set('');}
   invalido(campo:string):boolean{const c=this.formulario.get(campo);return !!c&&c.invalid&&c.touched;}
   enviar():void{
     if(this.enviando())return;
-    if(this.formulario.invalid||!this.rucDatos()){this.formulario.markAllAsTouched();this.error.set('Completa los campos y consulta un RUC válido antes de continuar.');return;}
+    if(!this.correoVerificado()){this.error.set('Verifica el correo de tu negocio para continuar.');return;}
+    if(this.formulario.invalid||!this.rucDatos()){
+      this.formulario.markAllAsTouched();
+      const c=this.formulario.controls;
+      this.error.set(c.contrasena.invalid?mensajeClave(c.contrasena.value):c.confirmarContrasena.invalid?'Confirma tu contraseña.':this.formulario.hasError('clavesDistintas')?'Las contraseñas no coinciden.':'Revisa los campos indicados y consulta un RUC válido antes de continuar.');return;
+    }
     if(this.formulario.controls.correo.value.trim().toLowerCase()===this.sesion.correo().toLowerCase()){this.error.set('Usa otro correo para tu cuenta de negocio. Tu cuenta de cliente debe mantenerse independiente.');return;}
     this.enviando.set(true);this.error.set('');
     this.auth.registrarNegocio(this.formulario.getRawValue()).subscribe({

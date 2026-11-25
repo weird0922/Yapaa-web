@@ -1,0 +1,10 @@
+import {Component,OnInit,inject,signal} from '@angular/core';
+import {ActivatedRoute,RouterLink} from '@angular/router';import {DatePipe} from '@angular/common';import {HttpClient} from '@angular/common/http';import {environment} from '../../environments/environment';import {Resultado} from '../core/api/resultado';import {mensajeDeError} from '../core/api/errores';import {soles} from '../dominio/producto';import {Paginador} from '../core/layout/paginador/paginador';
+interface Venta {idPedidoNegocio:number;codigo:string;fecha:string;estado:string;modalidad:string;productos:number;delivery:number;total:number;porcentaje:number;comision:number;neto:number;detalle:{idDetalle:number;producto:string;cantidad:number;precio:number;subtotal:number;comision:number;neto:number}[];}
+interface Detalle {idNegocio:number;nombre:string;ventas:Venta[];totalElementos:number;pagina:number;totalPaginas:number;negocio:{direccion:string;distrito:string;ciudad:string;ruc:string;telefono:string;estado:string;plan:string;porcentaje:number};resumen:{productos:number;delivery:number;total:number;comision:number;neto:number};}
+@Component({selector:'app-dashboard-negocio',imports:[RouterLink,DatePipe,Paginador],templateUrl:'./dashboard-negocio.html',styleUrl:'./dashboard.css'})
+export class DashboardNegocio implements OnInit {
+ private http=inject(HttpClient);private ruta=inject(ActivatedRoute);datos=signal<Detalle|null>(null);error=signal('');cargando=signal(false);precio=soles;periodo={desde:this.ruta.snapshot.queryParamMap.get('desde')??'',hasta:this.ruta.snapshot.queryParamMap.get('hasta')??''};
+ ngOnInit(){this.cargar();}
+ cargar(pagina=0){if(this.cargando())return;this.cargando.set(true);this.error.set('');const params={...Object.fromEntries(Object.entries(this.periodo).filter(([,v])=>v)),pagina};this.http.get<Resultado<Detalle>>(environment.apiUrl+'/dashboard/negocios/'+this.ruta.snapshot.paramMap.get('id'),{params}).subscribe({next:r=>{this.datos.set(r.datos);this.cargando.set(false);window.scrollTo({top:0,behavior:'instant'});},error:e=>{this.error.set(mensajeDeError(e));this.cargando.set(false);}});}
+}

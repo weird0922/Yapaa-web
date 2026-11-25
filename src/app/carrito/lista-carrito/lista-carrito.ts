@@ -1,3 +1,6 @@
+import { MisDirecciones } from '../../direcciones/mis-direcciones';
+import { DireccionesApi,Direccion,Cotizacion } from '../../direcciones/direcciones-api';
+import { PagoSimulado } from '../../pedidos/pago-simulado';
 import { Component, computed, inject, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
@@ -18,18 +21,23 @@ interface OpcionEntrega {
   modalidad: string;
   direccion: string;
   costoDelivery: number;
+  cotizacion?: Cotizacion;
 }
 
 const ENTREGA_POR_DEFECTO: OpcionEntrega = { modalidad: 'RECOJO', direccion: '', costoDelivery: 0 };
 
 @Component({
   selector: 'app-lista-carrito',
-  imports: [RouterLink],
+  imports: [RouterLink,PagoSimulado,MisDirecciones],
   templateUrl: './lista-carrito.html',
   styleUrl: './lista-carrito.css',
 })
 export class ListaCarrito {
 
+  private direccionesApi=inject(DireccionesApi);
+  direccion=signal<Direccion|null>(null);cotizando=signal<Record<number,boolean>>({});erroresEntrega=signal<Record<number,string>>({});private secuencias:Record<number,number>={};
+  hayDelivery=computed(()=>this.grupos().some(g=>this.opcionDe(g.idNegocio).modalidad==='DELIVERY'));
+  sinCotizar=computed(()=>this.grupos().some(g=>this.opcionDe(g.idNegocio).modalidad==='DELIVERY'&&(!this.opcionDe(g.idNegocio).cotizacion||this.cotizando()[g.idNegocio])));
   private carrito = inject(Carrito);
   private pedidosApi = inject(PedidosApi);
 
@@ -87,23 +95,25 @@ export class ListaCarrito {
     return (evento.target as HTMLInputElement | HTMLSelectElement).value;
   }
 
-  cambiarModalidad(idNegocio: number, evento: Event): void {
-    const modalidad = this.valorDe(evento);
-    this.actualizarOpcion(idNegocio, {
-      modalidad,
-      costoDelivery: modalidad === 'RECOJO' ? 0 : this.opcionDe(idNegocio).costoDelivery,
-    });
+  cambiarModalidad(idNegocio:number,evento:Event):void {
+    const modalidad=this.valorDe(evento);this.secuencias[idNegocio]=(this.secuencias[idNegocio]??0)+1;
+    this.cotizando.update(v=>({...v,[idNegocio]:false}));this.erroresEntrega.update(v=>({...v,[idNegocio]:''}));
+    this.actualizarOpcion(idNegocio,{modalidad,costoDelivery:0,cotizacion:undefined,direccion:''});
+    if(modalidad==='DELIVERY'&&this.direccion())this.cotizar(idNegocio);
   }
-
-  cambiarDireccion(idNegocio: number, evento: Event): void {
-    this.actualizarOpcion(idNegocio, { direccion: this.valorDe(evento) });
+  seleccionarDireccion(d:Direccion|null):void {
+    this.direccion.set(d);this.error.set('');
+    for(const g of this.grupos()){
+      this.secuencias[g.idNegocio]=(this.secuencias[g.idNegocio]??0)+1;this.cotizando.update(v=>({...v,[g.idNegocio]:false}));
+      this.actualizarOpcion(g.idNegocio,{cotizacion:undefined,costoDelivery:0,direccion:''});
+      if(this.opcionDe(g.idNegocio).modalidad==='DELIVERY'&&d)this.cotizar(g.idNegocio);
+    }
   }
-
-  cambiarCosto(idNegocio: number, evento: Event): void {
-    const valor = Number(this.valorDe(evento));
-    this.actualizarOpcion(idNegocio, { costoDelivery: Number.isNaN(valor) ? 0 : valor });
+  cotizar(id:number):void {
+    const d=this.direccion();if(!d||this.opcionDe(id).modalidad!=='DELIVERY')return;
+    const v=(this.secuencias[id]??0)+1;this.secuencias[id]=v;this.cotizando.update(a=>({...a,[id]:true}));this.erroresEntrega.update(a=>({...a,[id]:''}));this.actualizarOpcion(id,{cotizacion:undefined,costoDelivery:0});
+    this.direccionesApi.cotizar(id,d.id).subscribe({next:r=>{if(this.secuencias[id]!==v)return;this.actualizarOpcion(id,{cotizacion:r.datos,costoDelivery:r.datos.importe,direccion:r.datos.direccion});this.cotizando.update(a=>({...a,[id]:false}));},error:e=>{if(this.secuencias[id]!==v)return;this.cotizando.update(a=>({...a,[id]:false}));this.erroresEntrega.update(a=>({...a,[id]:mensajeDeError(e)}));}});
   }
-
   cambiarCantidad(idProducto: number, cantidad: number): void {
     this.carrito.cambiarCantidad(idProducto, cantidad);
   }
@@ -112,17 +122,14 @@ export class ListaCarrito {
     this.carrito.quitar(idProducto);
   }
 
+  actualizarPago(estado:string):void{if(estado==='CONFIRMADO'||estado==='ANULADO')this.pedidoCreado.update(p=>p?{...p,estadoPago:estado==='CONFIRMADO'?'CONFIRMADO':'REEMBOLSADO',estadoPedido:estado==='CONFIRMADO'?'CONFIRMADO':'CANCELADO'}:p);}
   generarPedido(): void {
     if (this.vacio()||this.generando()) {
       return;
     }
-    const deliverySinDireccion = this.grupos().some(
-      grupo => this.opcionDe(grupo.idNegocio).modalidad === 'DELIVERY' && !this.opcionDe(grupo.idNegocio).direccion.trim(),
-    );
-    if (deliverySinDireccion) {
-      this.error.set('Ingresa la direccion de entrega para los negocios con modalidad DELIVERY.');
-      return;
-    }
+    if(this.sinCotizar()){this.error.set('Selecciona una dirección válida para calcular el delivery.');return;}
+    const vencidas=this.grupos().filter(g=>this.opcionDe(g.idNegocio).modalidad==='DELIVERY'&&new Date(this.opcionDe(g.idNegocio).cotizacion!.vence+'-05:00').getTime()<=Date.now());
+    if(vencidas.length){this.error.set('Estamos actualizando el delivery. Revisa el total y continúa.');for(const g of vencidas)this.cotizar(g.idNegocio);return;}
 
     const peticion: PeticionPedido = {
       grupos: this.grupos().map(grupo => {
@@ -130,8 +137,7 @@ export class ListaCarrito {
         return {
           idNegocio: grupo.idNegocio,
           modalidadEntrega: opcion.modalidad,
-          direccionEntrega: opcion.modalidad === 'DELIVERY' ? opcion.direccion.trim() : undefined,
-          costoDelivery: opcion.costoDelivery,
+          cotizacionDelivery: opcion.modalidad === 'DELIVERY' ? opcion.cotizacion?.id : undefined,
           items: grupo.items.map(item => ({
             idProducto: item.producto.idProducto,
             cantidad: item.cantidad,

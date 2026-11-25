@@ -5,12 +5,12 @@
   <p class="ayuda">{{ modo() === 'negocio' ? 'Ingresa con tu cuenta exclusiva de negocio para administrar tus productos.' : 'Ingresa para continuar con tus compras y consultar tus pedidos.' }}</p>
   @if(retorno()) {<p class="nota-retorno">Inicia sesión para continuar donde lo dejaste.</p>}
   <form class="formulario" [formGroup]="formulario" (ngSubmit)="ingresar()">
-    <label class="campo"><span>Correo o usuario</span><input type="text" formControlName="correo" placeholder="tucorreo@ejemplo.com" autocomplete="username" autocapitalize="none">@if(mostrarError('correo')) {<small class="error">Ingresa tu correo o usuario.</small>}</label>
-    <label class="campo"><span>Contraseña</span><input type="password" formControlName="contrasena" autocomplete="current-password">@if(mostrarError('contrasena')) {<small class="error">Ingresa tu contraseña.</small>}</label>
+    <label class="campo"><span>Correo o usuario</span><input type="text" maxlength="254" formControlName="correo" placeholder="tucorreo@ejemplo.com" autocomplete="username" autocapitalize="none">@if(mostrarError('correo')) {<small class="error">Ingresa tu correo o usuario.</small>}</label>
+    <app-campo-clave [control]="formulario.controls.contrasena" [actual]="true" />
     @if(error()) {<div class="aviso-error" role="alert">{{ error() }}</div>}
     <button class="principal" type="submit" [disabled]="cargando()">{{ cargando() ? 'Ingresando…' : 'Ingresar →' }}</button>
   </form>
   <p class="registro">¿No tienes cuenta? <a routerLink="/registro" [queryParams]="{retorno:retorno(),modo:modo()}">Crear cuenta de cliente</a></p>
   <p class="registro">¿Eres negocio? <a routerLink="/afiliate">Afíliate a YAPAA</a></p>
-  @if(demo()) {<details class="demo"><summary>Cuentas de demostración local</summary><div class="acciones"><button type="button" (click)="usarPrueba('cliente')">Cliente</button><button type="button" (click)="usarPrueba('negocio')">Negocio</button><button type="button" (click)="usarPrueba('admin')">Admin</button></div></details>}
+  @if(demo()) {<details class="demo"><summary>Cuentas de demostración local</summary><div class="acciones"><button type="button" (click)="usarPrueba('cliente')">Cliente</button><button type="button" (click)="usarPrueba('negocio')">Negocio</button></div></details>}
 </section>

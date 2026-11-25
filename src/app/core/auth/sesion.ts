@@ -29,6 +29,7 @@ export class Sesion {
 
   cerrar(): void {
     localStorage.removeItem(CLAVE);
+    sessionStorage.removeItem('yapaa.admin.acceso');
     this.datos.set(null);
   }
 

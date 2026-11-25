@@ -11,6 +11,7 @@ export interface PeticionLogin {
 }
 
 export interface PeticionRegistro {
+  confirmarContrasena:string;tokenVerificacion:string;
   correo: string;
   contrasena: string;
   nombres: string;
