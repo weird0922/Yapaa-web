@@ -2,6 +2,14 @@
 
 Interfaz Angular de YAPAA, plataforma de excedentes alimentarios. API: [Yapaa-api](https://github.com/weird0922/Yapaa-api).
 
+### Descarga ZIP en Windows
+
+Extraer ambos repositorios en carpetas separadas. Ejecutar primero
+**Iniciar-API.cmd** en Yapaa-api y después **Iniciar-Web.cmd** en Yapaa-web.
+La web instala sus dependencias y queda en **http://localhost:4200/login**.
+Se requiere Node.js 24 LTS, Java 21 y SQL Server con sqlcmd.
+
+
 ## Ejecutar
 
 ```text
